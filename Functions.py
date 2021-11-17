@@ -63,7 +63,6 @@ def getKeePassUsername(directory, name):
     KeePass = PyKeePass(keepass_file, password=os.environ.get('KeePass'))
     return KeePass.find_entries(title=name, first=True).username
 
-
 def getKeePassPassword(directory, name):
     keepass_file = directory + r"\Other\KeePass.kdbx"
     KeePass = PyKeePass(keepass_file, password=os.environ.get('KeePass'))
