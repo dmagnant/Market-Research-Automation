@@ -18,7 +18,6 @@ from Presearch import runPresearch
 directory = setDirectory()
 driver = chromeDriverAsUser(directory)
 closeExpressVPN()
-time.sleep(5)
 
 #Disable Pihole
 edgedriver = directory + r"\Projects\Coding\webdrivers\msedgedriver.exe"

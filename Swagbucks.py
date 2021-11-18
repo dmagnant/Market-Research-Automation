@@ -4,29 +4,17 @@ import ctypes
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, ElementNotInteractableException, NoSuchWindowException, WebDriverException
 from selenium import webdriver
 import time
-import csv
 import random
-from ahk import AHK
 from selenium.webdriver.common.keys import Keys
 import socket
 import pyautogui
+from random_word import RandomWords
+from Functions import setDirectory, chromeDriverAsUser, getKeePassUsername, getKeePassPassword, enumHandler, closeExpressVPN
 
-#get computer name
-computer = socket.gethostname()
+closeExpressVPN()
 
-# computer-specific file paths
-if computer == "Big-Bertha":
-    google_drive = r"C:\Users\dmagn\Google Drive"
-elif computer == "Black-Betty":
-    google_drive = r"D:\Google Drive"
-
-ahk = AHK()
-
-# load webdriver
-chromedriver = google_drive + r"\Projects\Coding\webdrivers\chromedriver.exe"
-options = webdriver.ChromeOptions()
-options.add_argument(r"user-data-dir=C:\Users\dmagn\AppData\Local\Google\Chrome\User Data")
-driver = webdriver.Chrome(executable_path=chromedriver, options=options)
+directory = setDirectory()
+driver = chromeDriverAsUser(directory)
 driver.implicitly_wait(2)
 driver.get("https://www.swagbucks.com/")
 driver.maximize_window()
@@ -59,7 +47,7 @@ time.sleep(2)
 #scroll down
 pyautogui.scroll(-1500)
 time.sleep(2)
-ahk.click(1400, 780)
+pyautogui.leftClick(1400, 780)
 
 #AdGate Media
 driver.execute_script("window.open('https://www.swagbucks.com/discover/offer-walls/151/adgate-media');")
@@ -133,10 +121,9 @@ while list_item_num <= 8:
     list_item_num += 1
 
 #Daily Search
-words = google_drive + r"\Projects\Coding\Python\Market Research\Resources\words.csv"
 search_window = driver.window_handles[0]
 driver.switch_to.window(search_window)
-driver.implicitly_wait(5)
+driver.implicitly_wait(3)
 delay = [1, 2, 3]
 searches = 0
 num = 0
@@ -161,10 +148,7 @@ while num < 2:
         driver.find_element_by_id("sbLogoLink").click()
         time.sleep(1)
         searches += 1
-        with open(words, 'r') as t1:
-            csv_reader = csv.reader(t1, delimiter=',')
-            for row in csv_reader:
-                driver.find_element_by_id("sbGlobalNavSearchInputWeb").send_keys(random.choice(row) + " " + random.choice(row))
+        driver.find_element_by_id("sbGlobalNavSearchInputWeb").send_keys(RandomWords().get_random_word())
         time.sleep(random.choice(delay))
         driver.find_element_by_id("sbGlobalNavSearchInputWeb").send_keys(Keys.ENTER)
     except NoSuchWindowException:
