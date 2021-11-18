@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException
 import socket
 from pykeepass import PyKeePass
 import os
@@ -66,3 +67,33 @@ def getKeePassPassword(directory, name):
     keepass_file = directory + r"\Other\KeePass.kdbx"
     KeePass = PyKeePass(keepass_file, password=os.environ.get('KeePass'))
     return KeePass.find_entries(title=name, first=True).password
+
+def loginPiHole(directory, driver):
+    driver.implicitly_wait(2)
+    driver.get("http://192.168.1.144/admin/")
+    driver.maximize_window()
+    #click Login
+    driver.find_element_by_xpath("/html/body/div[2]/aside/section/ul/li[3]/a").click()
+    # Enter Password
+    driver.find_element_by_id("loginpw").send_keys(getKeePassPassword(directory, 'Pi hole'))
+    #click Login again
+    driver.find_element_by_xpath("//*[@id='loginform']/div[2]/div/button").click()
+    time.sleep(1)
+
+def disablePiHole(directory, driver):
+    loginPiHole(directory, driver)
+    try:
+        driver.find_element_by_xpath("//*[@id='pihole-disable']/a/span[2]").click()
+        # Click Indefinitely
+        driver.find_element_by_xpath("//*[@id='pihole-disable-indefinitely']").click()
+    except ElementNotInteractableException:
+        exception = "already disabled"
+
+def enablePiHole(directory, driver):
+    loginPiHole(directory, driver)
+    try:
+        driver.find_element_by_id("enableLabel").click()
+    except NoSuchElementException:
+        exception = "already enabled"
+    except ElementNotInteractableException:
+        exception = "already enabled"
