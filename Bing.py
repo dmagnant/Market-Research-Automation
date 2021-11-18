@@ -1,7 +1,6 @@
 from selenium.common.exceptions import NoSuchElementException
 import time
 import os
-
 from Functions import getKeePassUsername, getKeePassPassword
 
 def runBing(directory, driver):

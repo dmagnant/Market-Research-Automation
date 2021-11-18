@@ -1,5 +1,3 @@
-import piecash
-from piecash import GnucashException
 import ctypes
 from Functions import openGnuCashBook
 
