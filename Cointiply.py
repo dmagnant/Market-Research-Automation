@@ -1,27 +1,13 @@
-from ahk import AHK
 from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException, ElementClickInterceptedException, StaleElementReferenceException
-from selenium import webdriver
 import time
 import ctypes
 import cv2
 import pyautogui
-import csv
-import random
 import pygetwindow
-import mouse
-import socket
 import win32gui
-from Functions import setDirectory, chromeDriverAsUser, getKeePassUsername, getKeePassPassword, enumHandler
-from Presearch import Presearch
+from Functions import getKeePassUsername, getKeePassPassword, enumHandler
 
-ahk = AHK()
-
-# set directory
-directory = setDirectory()
-# load webdriver
-driver = chromeDriverAsUser(directory)
-
-def Cointiply(driver):
+def runCointiply(directory, driver):
     # load webpage 
     driver.implicitly_wait(1)
     driver.get("https://cointiply.com/login")
@@ -119,7 +105,7 @@ def Cointiply(driver):
             time.sleep(1)
             driver.switch_to.window(main_window)
             # click on screen
-            pyautogui.leftClick(1150, 250)  # ahk.click(1150, 250)
+            pyautogui.leftClick(1150, 250)
             time.sleep(1)
             driver.switch_to.window(window_after)
             view_length = view_length[0] + view_length[1]
@@ -284,7 +270,3 @@ def Cointiply(driver):
             spins_remaining = driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div/div[2]/div[4]").text.replace("\n", " ").replace(" Spins Remaining", '')
         except NoSuchElementException:
             exception = "pop-up"
-
-Cointiply(driver)
-Presearch(driver)
-driver.quit()

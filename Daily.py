@@ -17,8 +17,8 @@ import mouse
 import socket
 from random_word import RandomWords
 from Functions import setDirectory, chromeDriverAsUser, getKeePassUsername, getKeePassPassword, enumHandler, closeExpressVPN
-from Cointiply import Cointiply
-from Presearch import Presearch
+from Cointiply import runCointiply
+from Presearch import runPresearch
 
 ahk = AHK()
 
@@ -109,10 +109,6 @@ driver1.minimize_window()
 
 # # TELLWUT
 # LOAD PAGE
-chromedriver = directory + r"\Projects\Coding\webdrivers\chromedriver.exe"
-options = webdriver.ChromeOptions()
-options.add_argument(r"user-data-dir=C:\Users\dmagn\AppData\Local\Google\Chrome\User Data")
-driver = webdriver.Chrome(executable_path=chromedriver, options=options)
 driver.implicitly_wait(5)
 ahk = AHK()
 driver.get("https://www.tellwut.com/signin")
@@ -227,8 +223,8 @@ except NoSuchElementException:
     # skip if prompted for security question
     exception = "caught"
 
-Cointiply(driver)
-Presearch(driver)
+runCointiply(directory, driver)
+runPresearch(driver)
 
 # Swagbucks
 driver.get("https://www.swagbucks.com/")
