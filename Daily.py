@@ -1,5 +1,4 @@
-from ahk import AHK
-from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException, StaleElementReferenceException, NoSuchWindowException, WebDriverException, ElementClickInterceptedException
+from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException, NoSuchWindowException, WebDriverException
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
@@ -8,19 +7,13 @@ import ctypes
 import piecash
 from piecash import GnucashException
 import random
-import csv
-from pykeepass import PyKeePass
-import psutil
-import cv2
 import pyautogui
-import mouse
-import socket
 from random_word import RandomWords
+import pygetwindow
+import win32gui
 from Functions import setDirectory, chromeDriverAsUser, getKeePassUsername, getKeePassPassword, enumHandler, closeExpressVPN
 from Cointiply import runCointiply
 from Presearch import runPresearch
-
-ahk = AHK()
 
 # set directory
 directory = setDirectory()
@@ -110,7 +103,6 @@ driver1.minimize_window()
 # # TELLWUT
 # LOAD PAGE
 driver.implicitly_wait(5)
-ahk = AHK()
 driver.get("https://www.tellwut.com/signin")
 # Login
 try:
@@ -240,10 +232,17 @@ driver.execute_script("window.open('https://www.swagbucks.com/games/play/319/alu
 window_after = driver.window_handles[1]
 driver.switch_to.window(window_after)
 time.sleep(2)
-win = ahk.win_get(title="Alu's Revenge 2 - Free Online Games | Swagbucks - Google Chrome")
-win.move(0, 0)
-win.activate()
-driver.maximize_window()
+
+# move window to primary monitor
+Alu = pygetwindow.getWindowsWithTitle("Alu's Revenge 2 - Free Online Games | Swagbucks - Google Chrome")[0]
+Alu.resizeTo(100, 100)
+win32gui.EnumWindows(enumHandler, "Alu's Revenge")
+Alu.maximize()
+
+# win = ahk.win_get(title="Alu's Revenge 2 - Free Online Games | Swagbucks - Google Chrome")
+# win.move(0, 0)
+# win.activate()
+# driver.maximize_window()
 
 redeemed = 0
 # click Play for Free
@@ -254,21 +253,21 @@ while redeemed < 5:
     game_over_text = ""
     num = 0
     # click Play Now
-    ahk.click(850, 972)
+    pyautogui.leftClick(850, 972)
     time.sleep(1)
     # click Play Now (again)
-    ahk.click(938, 803)
+    pyautogui.leftClick(938, 803)
     time.sleep(1)
     # click to remove "goal screen" and start game
-    ahk.click(872, 890)
+    pyautogui.leftClick(872, 890)
     time.sleep(2)
     # click tiles
-    ahk.click(680, 1030)
-    ahk.click(750, 1030)
-    ahk.click(825, 1030)
-    ahk.click(900, 1030)
-    ahk.click(975, 1030)
-    ahk.click(1025, 1030)
+    pyautogui.leftClick(680, 1030)
+    pyautogui.leftClick(750, 1030)
+    pyautogui.leftClick(825, 1030)
+    pyautogui.leftClick(900, 1030)
+    pyautogui.leftClick(975, 1030)
+    pyautogui.leftClick(1025, 1030)
     time.sleep(25)
     while num < 5:
         # if Game over screen up
@@ -303,7 +302,7 @@ time.sleep(2)
 #scroll down
 pyautogui.scroll(-1500)
 time.sleep(2)
-ahk.click(1400, 780)
+pyautogui.leftClick(1400, 780)
 
 #AdGate Media
 driver.execute_script("window.open('https://www.swagbucks.com/discover/offer-walls/151/adgate-media');")

@@ -40,7 +40,6 @@ def closeExpressVPN():
 def setDirectory():
     #get computer name
     computer = socket.gethostname()
-
     # computer-specific file paths
     if computer == "Big-Bertha":
         return r"C:\Users\dmagn\Google Drive"
