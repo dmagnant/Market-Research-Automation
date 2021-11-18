@@ -15,12 +15,8 @@ from Functions import setDirectory, chromeDriverAsUser, getKeePassUsername, getK
 from Cointiply import runCointiply
 from Presearch import runPresearch
 
-# set directory
 directory = setDirectory()
-# load webdriver
 driver = chromeDriverAsUser(directory)
-
-## Close Express VPN
 closeExpressVPN()
 time.sleep(5)
 
@@ -238,17 +234,16 @@ Alu = pygetwindow.getWindowsWithTitle("Alu's Revenge 2 - Free Online Games | Swa
 Alu.resizeTo(100, 100)
 win32gui.EnumWindows(enumHandler, "Alu's Revenge")
 Alu.maximize()
-
 # win = ahk.win_get(title="Alu's Revenge 2 - Free Online Games | Swagbucks - Google Chrome")
 # win.move(0, 0)
 # win.activate()
 # driver.maximize_window()
 
-redeemed = 0
 # click Play for Free
 driver.implicitly_wait(20)
 driver.find_element_by_id("gamesItemBtn").click()
 time.sleep(3)
+redeemed = 0
 while redeemed < 5:
     game_over_text = ""
     num = 0
