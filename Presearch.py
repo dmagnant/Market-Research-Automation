@@ -1,7 +1,6 @@
 import time
 import random
 from random_word import RandomWords
-from 
 
 def runPresearch(driver):
     search_prefix = "https://testnet-engine.presearch.org/search?q="

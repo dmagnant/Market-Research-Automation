@@ -6,8 +6,11 @@ import os
 import win32gui
 import psutil
 import time
+import ctypes
 import pygetwindow
 import pyautogui
+import piecash
+from piecash import GnucashException
 
 def enumHandler(hwnd, title):
     if win32gui.IsWindowVisible(hwnd):
@@ -97,3 +100,22 @@ def enablePiHole(directory, driver):
         exception = "already enabled"
     except ElementNotInteractableException:
         exception = "already enabled"
+
+def openGnuCashBook(directory, type, readOnly, openIfLocked):
+    if type == 'Finance':
+        book = directory + r"\Finances\Personal Finances\Finance.gnucash"
+    elif type == 'Home':
+        book = directory + r"\Stuff\Home\Finances\Home.gnucash"
+    try:
+        mybook = piecash.open_book(book, readonly=readOnly, open_if_lock=openIfLocked)
+        opened = True
+    except GnucashException:
+        MessageBox = ctypes.windll.user32.MessageBoxW
+        MessageBox(None, f'Close Gnucash file then click OK \n'
+                , "Gnucash file open", 0)
+        mybook = piecash.open_book(book, readonly=readOnly, open_if_lock=openIfLocked)
+    return mybook
+
+def showMessage(header, body): 
+    MessageBox = ctypes.windll.user32.MessageBoxW
+    MessageBox(None, body, header, 0)
