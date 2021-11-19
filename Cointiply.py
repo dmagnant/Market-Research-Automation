@@ -5,7 +5,7 @@ import cv2
 import pyautogui
 import pygetwindow
 import win32gui
-from Functions import getKeePassUsername, getKeePassPassword, enumHandler
+from Functions import getUsername, getPassword, enumHandler
 
 def runCointiply(directory, driver):
     # load webpage 
@@ -16,9 +16,9 @@ def runCointiply(directory, driver):
     #Login
     try:
         # enter email
-        driver.find_element_by_xpath("//html/body/div/div[2]/section/div[1]/div/div[2]/div/div[3]/form/div[1]/input").send_keys(getKeePassUsername(directory, 'Cointiply'))
+        driver.find_element_by_xpath("//html/body/div/div[2]/section/div[1]/div/div[2]/div/div[3]/form/div[1]/input").send_keys(getUsername(directory, 'Cointiply'))
         # enter password
-        driver.find_element_by_xpath("/html/body/div/div[2]/section/div[1]/div/div[2]/div/div[3]/form/div[2]/input").send_keys(getKeePassPassword(directory, 'Cointiply'))
+        driver.find_element_by_xpath("/html/body/div/div[2]/section/div[1]/div/div[2]/div/div[3]/form/div[2]/input").send_keys(getPassword(directory, 'Cointiply'))
         # handle captcha
         MessageBox = ctypes.windll.user32.MessageBoxW
         MessageBox(None, "Verify captcha, then click OK", 'CAPTCHA', 0)
@@ -133,69 +133,69 @@ def runCointiply(directory, driver):
             time.sleep(1)
             # take screenshot of captcha images
             myScreenshot = pyautogui.screenshot(region=(650, 400, 600, 400))
-            myScreenshot.save(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\captcha_shot.png")
+            myScreenshot.save(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\captcha_shot.png")
             
             # select proper template based on selection
             if selection == "Anchovies":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\anchovies.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\anchovies.png")
             elif selection == "Apple":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\apple.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\apple.png")
             elif selection == "Beaker":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\beaker.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\beaker.png")
             elif selection == "Bolts of Cloth":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\bolts of cloth.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\bolts of cloth.png")
             elif selection == "Bones":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\bones.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\bones.png")
             elif selection == "Bucket":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\bucket.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\bucket.png")
             elif selection == "Carrot":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\carrot.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\carrot.png")
             elif selection == "Cheese":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\cheese.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\cheese.png")
             elif selection == "Chocolate":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\chocolate.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\chocolate.png")
             elif selection == "First Aid Kit":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\first aid kit.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\first aid kit.png")
             elif selection == "Fish":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\fish.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\fish.png")
             elif selection == "Jerry Can":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\jerry can.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\jerry can.png")
             elif selection == "Keys":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\keys.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\keys.png")
             elif selection == "Lock Box":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\lock box.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\lock box.png")
             elif selection == "Medecine":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\medicine.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\medicine.png")
             elif selection == "Mushroom":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\mushroom.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\mushroom.png")
             elif selection == "Ointment":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\ointment.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\ointment.png")
             elif selection == "Paint":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\paint.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\paint.png")
             elif selection == "Peanut":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\peanut.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\peanut.png")
             elif selection == "Pen":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\pen.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\pen.png")
             elif selection == "Pencil":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\pencil.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\pencil.png")
             elif selection == "Pills":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\pills.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\pills.png")
             elif selection == "Sack":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\sack.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\sack.png")
             elif selection == "Small Lollipop":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\small lollipop.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\small lollipop.png")
             elif selection == "Steak":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\steak.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\steak.png")
             elif selection == "Syringe":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\syringe.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\syringe.png")
             elif selection == "Tire":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\tire.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\tire.png")
             elif selection == "Turkey Leg":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\turkey leg.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\turkey leg.png")
             elif selection == "Wallet":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\wallet.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\wallet.png")
             elif selection == "Wooden Logs":
-                template = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\wooden logs.png")
+                template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\wooden logs.png")
             else:
                 MessageBox = ctypes.windll.user32.MessageBoxW
                 MessageBox(None, f'selection not available \n'
@@ -204,7 +204,7 @@ def runCointiply(directory, driver):
                 driver.close()
                 continue
 
-            img = cv2.imread(directory + r"\Projects\Coding\Python\Market Research\Resources\captcha images\captcha_shot.png")
+            img = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\captcha_shot.png")
             img2 = img.copy()
             w, h = template.shape[:-1]
             # Condensed methods from 6 to 2

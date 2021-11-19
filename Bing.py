@@ -1,7 +1,7 @@
 from selenium.common.exceptions import NoSuchElementException
 import time
 import os
-from Functions import getKeePassUsername, getKeePassPassword
+from Functions import getUsername, getPassword
 
 def runBing(directory, driver):
     driver.execute_script("window.open('https://account.microsoft.com/rewards/');")
@@ -12,13 +12,13 @@ def runBing(directory, driver):
     # login
     try:
         # enter username
-        driver.find_element_by_id("i0116").send_keys(getKeePassUsername(directory, 'Bing Rewards'))
+        driver.find_element_by_id("i0116").send_keys(getUsername(directory, 'Bing Rewards'))
         time.sleep(1)
         # click Next
         driver.find_element_by_id("idSIButton9").click()
         time.sleep(1)
         # enter password
-        driver.find_element_by_id("i0118").send_keys(getKeePassPassword(directory, 'Bing Rewards'))
+        driver.find_element_by_id("i0118").send_keys(getPassword(directory, 'Bing Rewards'))
         time.sleep(1)
         # click Sign in
         driver.find_element_by_xpath("/html/body/div/form[1]/div/div/div[2]/div[1]/div/div/div/div/div/div[3]/div/div[2]/div/div[3]/div[2]/div/div/div/div/input").click()

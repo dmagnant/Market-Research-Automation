@@ -42,13 +42,7 @@ def closeExpressVPN():
         time.sleep(4)
 
 def setDirectory():
-    #get computer name
-    computer = socket.gethostname()
-    # computer-specific file paths
-    if computer == "Big-Bertha":
-        return r"C:\Users\dmagn\Google Drive"
-    elif computer == "Black-Betty":
-        return r"D:\Google Drive"
+    return os.environ.get('StorageDirectory')
 
 def chromeDriverAsUser(directory):
     chromedriver = directory + r"\Projects\Coding\webdrivers\chromedriver.exe"
@@ -61,12 +55,12 @@ def chromeDriverBlank(directory):
     chromedriver = directory + r"\Projects\Coding\webdrivers\chromedriver.exe"
     return webdriver.Chrome(executable_path=chromedriver)
 
-def getKeePassUsername(directory, name):
+def getUsername(directory, name):
     keepass_file = directory + r"\Other\KeePass.kdbx"
     KeePass = PyKeePass(keepass_file, password=os.environ.get('KeePass'))
     return KeePass.find_entries(title=name, first=True).username
 
-def getKeePassPassword(directory, name):
+def getPassword(directory, name):
     keepass_file = directory + r"\Other\KeePass.kdbx"
     KeePass = PyKeePass(keepass_file, password=os.environ.get('KeePass'))
     return KeePass.find_entries(title=name, first=True).password
@@ -78,7 +72,7 @@ def loginPiHole(directory, driver):
     #click Login
     driver.find_element_by_xpath("/html/body/div[2]/aside/section/ul/li[3]/a").click()
     # Enter Password
-    driver.find_element_by_id("loginpw").send_keys(getKeePassPassword(directory, 'Pi hole'))
+    driver.find_element_by_id("loginpw").send_keys(getPassword(directory, 'Pi hole'))
     #click Login again
     driver.find_element_by_xpath("//*[@id='loginform']/div[2]/div/button").click()
     time.sleep(1)
