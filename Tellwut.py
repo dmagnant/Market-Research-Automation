@@ -1,6 +1,6 @@
-import ctypes
 import time
 from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException
+from Functions import showMessage
 
 def runTellwut(driver):
     # LOAD PAGE
@@ -10,8 +10,7 @@ def runTellwut(driver):
     try:
         driver.find_element_by_xpath("//*[@id='signinForm']/div[4]/div/button").click()
     except NoSuchElementException:
-        MessageBox = ctypes.windll.user32.MessageBoxW
-        MessageBox(None, "complete captcha, then click OK", 'Captcha', 0)
+        showMessage('Captcha', "complete captcha, then click OK")
     try:
         driver.find_element_by_xpath("//*[@id='signinForm']/div[5]/div/button").click()
     except NoSuchElementException:

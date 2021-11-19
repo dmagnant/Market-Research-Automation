@@ -1,5 +1,5 @@
 from selenium import webdriver
-from Functions import setDirectory, chromeDriverAsUser, closeExpressVPN, disablePiHole, enablePiHole, showMessage
+from Functions import setDirectory, chromeDriverAsUser, closeExpressVPN, startExpressVPN, disablePiHole, enablePiHole, showMessage
 from Cointiply import runCointiply
 from Presearch import runPresearch
 from Swagbucks import runSwagbucks
@@ -21,7 +21,8 @@ runPinecone(driver)
 runCointiply(directory, driver)
 runPresearch(driver)
 runSwagbucks(driver, True)
-showMessage("Scripts Complete", f'Click OK to: \n''Enable Pihole \n' 'Close Chrome webdriver \n')
+showMessage("Scripts Complete", 'Click OK to: \n''Enable Pihole \n' 'Close Chrome webdriver \n')
 driver.quit()
 enablePiHole(directory, driver)
 driver1.quit()
+startExpressVPN()

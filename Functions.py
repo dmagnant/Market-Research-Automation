@@ -12,6 +12,10 @@ import pyautogui
 import piecash
 from piecash import GnucashException
 
+def showMessage(header, body): 
+    MessageBox = ctypes.windll.user32.MessageBoxW
+    MessageBox(None, body, header, 0)
+
 def enumHandler(hwnd, title):
     if win32gui.IsWindowVisible(hwnd):
         if title in win32gui.GetWindowText(hwnd):
@@ -27,6 +31,13 @@ def checkIfProcessRunning(processName):
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
     return False;
+
+def startExpressVPN():
+    os.startfile(r'C:\Program Files (x86)\ExpressVPN\expressvpn-ui\ExpressVPN.exe')
+    time.sleep(3)
+    EVPN = pygetwindow.getWindowsWithTitle('ExpressVPN')[0]
+    EVPN.close()
+    # stays open in system tray
 
 def closeExpressVPN():
     if checkIfProcessRunning('ExpressVPN.exe'):
@@ -102,14 +113,7 @@ def openGnuCashBook(directory, type, readOnly, openIfLocked):
         book = directory + r"\Stuff\Home\Finances\Home.gnucash"
     try:
         mybook = piecash.open_book(book, readonly=readOnly, open_if_lock=openIfLocked)
-        opened = True
     except GnucashException:
-        MessageBox = ctypes.windll.user32.MessageBoxW
-        MessageBox(None, f'Close Gnucash file then click OK \n'
-                , "Gnucash file open", 0)
+        showMessage("Gnucash file open", 'Close Gnucash file then click OK \n')
         mybook = piecash.open_book(book, readonly=readOnly, open_if_lock=openIfLocked)
     return mybook
-
-def showMessage(header, body): 
-    MessageBox = ctypes.windll.user32.MessageBoxW
-    MessageBox(None, body, header, 0)

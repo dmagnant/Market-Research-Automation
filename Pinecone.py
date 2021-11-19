@@ -28,7 +28,7 @@ def runPinecone(driver):
             driver.find_element_by_xpath("/html/body/div[2]/div/div/div[2]/div/div[2]/div[1]/div[2]/form/div/div[2]/input").click()
             if float(pc_balance) > 300:
                 MessageBox = ctypes.windll.user32.MessageBoxW
-                MessageBox(None, f'code redemption of Pinecone > 300pts'
+                MessageBox(None, 'code redemption of Pinecone > 300pts'
                         , "balance higher than 300", 0)
             # click checkout
             driver.find_element_by_xpath("/html/body/div[2]/div/div/div[4]/div[1]/div/div[2]/div/div/table/tbody/tr[5]/td/a").click()
