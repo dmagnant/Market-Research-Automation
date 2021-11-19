@@ -7,7 +7,10 @@ def runPresearch(driver):
     delay = [1, 2, 3]
     num = 0
     while num < 2:
-        search_term = RandomWords().get_random_word()
+        search_term = None
+        while search_term is None:
+            search_term = RandomWords().get_random_word()
+        time.sleep(1)
         search_path = search_prefix + search_term
         driver.get(search_path)
         num += 1

@@ -1,5 +1,4 @@
-import ctypes
-from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException, NoSuchWindowException, WebDriverException
+from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException, NoSuchWindowException, WebDriverException, ElementClickInterceptedException
 import time
 import random
 from selenium.webdriver.common.keys import Keys
@@ -7,7 +6,7 @@ import pyautogui
 import win32gui
 import pygetwindow
 from random_word import RandomWords
-from Functions import enumHandler, closeExpressVPN
+from Functions import enumHandler, closeExpressVPN, showMessage
 
 def runAlusRevenge(driver, run_Alu):
     if run_Alu:
@@ -168,29 +167,34 @@ def runSwagbucks(driver, run_Alu):
     searches = 0
     num = 0
     while num < 2:
+        search_term = None
         try:
+            # accept reward
             driver.find_element_by_xpath("//*[@id='tblAwardBannerAA']/div[2]/div/div[1]/form/input[2]")
             num += 1
-            MessageBox = ctypes.windll.user32.MessageBoxW
-            MessageBox(None, f'Total searches: {searches} \n'
-                            f'redemptions: {num} \n'
-                    , "Redeem Swagbucks", 0)
+            showMessage("Redeem Swagbucks", f'Total searches: {searches} \n' f'redemptions: {num} \n')
+        # if no reward, continue searching
         except NoSuchElementException:
+            time.sleep(1)
             try:
-                driver.find_element_by_id("lightboxExit").click()
-            except NoSuchElementException:
-                try:
-                    driver.find_element_by_id("daily-goal-celebration__exitCta--2VEiu").click()
+                driver.find_element_by_id("sbLogoLink").click()
+            # light-box pop-up in the way
+            except ElementClickInterceptedException:
+                try: 
+                    driver.find_element_by_id("lightboxExit").click()
                 except NoSuchElementException:
-                    exception = "no award box"
-            except ElementNotInteractableException:
-                exception = "caught"
-            driver.find_element_by_id("sbLogoLink").click()
+                    try: 
+                        driver.find_element_by_id("daily-goal-celebration__exitCta--2VEiu").click()
+                    except ElementNotInteractableException:
+                        exception = "caught"
+                driver.find_element_by_id("sbLogoLink").click()
             time.sleep(1)
             searches += 1
-            driver.find_element_by_id("sbGlobalNavSearchInputWeb").send_keys(RandomWords().get_random_word())
-            time.sleep(random.choice(delay))
+            while search_term is None:
+                search_term = RandomWords().get_random_word()
+            driver.find_element_by_id("sbGlobalNavSearchInputWeb").send_keys(search_term)
             driver.find_element_by_id("sbGlobalNavSearchInputWeb").send_keys(Keys.ENTER)
+            time.sleep(random.choice(delay))
         except NoSuchWindowException:
             num = 3
         except WebDriverException:
