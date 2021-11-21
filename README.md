@@ -16,9 +16,12 @@ I created Python files for each site that, when executed, run through tasks on t
  
 Ad-views requiring captcha confirmation
 
-For one site, rewards are given for viewing ads for a minimum amount of time. For each ad view, the script captures the amount of time (in seconds) to view the ad. Further, to confirm the reward, a captcha is required. Since the site uses the same set of images, I stored each in a directory. The script reads text on the screen to see which image the site is asking to be clicked, finds the image in the directory, screenshots the screen to see which image on screen matches, and clicks the proper image to confirm the reward.
+For one site, rewards are given for viewing ads for a minimum amount of time. For each ad view, the application captures the amount of time (in seconds) to view the ad. Further, to confirm the reward, a captcha is required. Since the site uses the same set of images, I stored each in a directory. The application reads text on the screen to see which image the site is asking to be clicked, finds the image in the directory, screenshots the screen to see which image on screen matches, and clicks the proper image to confirm the reward.
 
-Searches
+Searches at random
 
-For multiple sites, rewards are given for using their site as a search engine. Rewards are either given for each search, or given after a certain number of searches. Further, there are checks in place if searches are executed too quickly or without variety. The script provides a random word and delays searches at random to better mimick human action and earn rewards.
+For multiple sites, rewards are given for using their site as a search engine. Rewards are either given for each search, or given after a certain number of searches. Further, there are checks in place if searches are executed too quickly or without variety. The application provides a random word and delays searches at random to mimick human action and pass the checks.
 
+Survey completions using 'button' elements
+
+For one site, rewards are given for participating in community-created surveys which aren't privy to checks, so any answer is allowed. The application locates each radio button/checkbox on screen and clicks accordingly to make sure each questioned is answered, then clicks submit and reloads until all surveys are completed.
