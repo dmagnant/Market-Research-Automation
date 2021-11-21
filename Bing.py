@@ -29,14 +29,55 @@ def runBing(directory, driver):
         driver.find_element_by_xpath("/html/body/div[1]/div[2]/main/section/div[1]/div[2]/section/div[1]/a[2]").click()
     except NoSuchElementException:
         exception = "already logged in"
-    # click on "points" links
-    links = driver.find_elements_by_partial_link_text("points")
-    links[0].click()
+
+    # gather "points" links
+    points_links = driver.find_elements_by_css_selector("mee-rewards-daily-set-item-content")
+
+    # click on first link
+    points_links[0].click()
     time.sleep(1)
     window_after = driver.window_handles[2]
     driver.switch_to.window(window_after)
+    time.sleep(1)
     driver.close()
     driver.switch_to.window(bing_window)
+
+    # click on survey - NEED TO EDIT
+    points_links[1].click()
+    time.sleep(1)
+    window_after = driver.window_handles[2]
+    driver.switch_to.window(window_after)
+    time.sleep(1)
+    driver.close()
+    driver.switch_to.window(bing_window)
+    points_links[1].click()
+    time.sleep(1)
+    window_after = driver.window_handles[2]
+    driver.switch_to.window(window_after)
+    # CLICK ON SURVEY OPTION
+    driver.close()
+    driver.switch_to.window(bing_window)
+
+    # click on Daily Poll
+    points_links[2].click()
+    time.sleep(1)
+    window_after = driver.window_handles[2]
+    driver.switch_to.window(window_after)
+    time.sleep(1)
+    driver.close()
+    driver.switch_to.window(bing_window)
+    time.sleep(1)
+    points_links[2].click()
+    window_after = driver.window_handles[2]
+    driver.switch_to.window(window_after)
+    time.sleep(1)
+    try: 
+        driver.find_element_by_id("btoption0").click()
+    except NoSuchElementException:
+        exception = "already clicked"
+    driver.close()
+    driver.switch_to.window(bing_window)
+
     # capture balance
     time.sleep(3)
     mr_balance = driver.find_element_by_xpath("//*[@id='userBanner']/mee-banner/div/div/div/div[2]/div[1]/mee-banner-slot-2/mee-rewards-user-status-item/mee-rewards-user-status-balance/div/div/div/div/div/p[1]/mee-rewards-counter-animation/span").text.replace(",", "")

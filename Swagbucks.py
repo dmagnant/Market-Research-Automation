@@ -167,6 +167,7 @@ def runSwagbucks(driver, run_Alu):
     searches = 0
     num = 0
     while num < 2:
+        search_term1, search_term2 = None
         search_term = None
         try:
             # accept reward
@@ -190,8 +191,11 @@ def runSwagbucks(driver, run_Alu):
                 driver.find_element_by_id("sbLogoLink").click()
             time.sleep(1)
             searches += 1
-            while search_term is None:
-                search_term = RandomWords().get_random_word()
+            while search_term1 is None:
+                search_term1 = RandomWords().get_random_word()
+            while search_term2 is None:
+                search_term2 = RandomWords().get_random_word()
+            search_term = search_term1 + " " + search_term2
             driver.find_element_by_id("sbGlobalNavSearchInputWeb").send_keys(search_term)
             driver.find_element_by_id("sbGlobalNavSearchInputWeb").send_keys(Keys.ENTER)
             time.sleep(random.choice(delay))
