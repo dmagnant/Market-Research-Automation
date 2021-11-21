@@ -167,7 +167,8 @@ def runSwagbucks(driver, run_Alu):
     searches = 0
     num = 0
     while num < 2:
-        search_term1, search_term2 = None
+        search_term1 = None
+        search_term2 = None
         search_term = None
         try:
             # accept reward

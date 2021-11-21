@@ -31,6 +31,7 @@ def runCointiply(directory, driver):
     Cointiply = pygetwindow.getWindowsWithTitle('Cointiply Bitcoin Rewards - Earn Free Bitcoin - Google Chrome')[0]
     Cointiply.resizeTo(100, 100)
     win32gui.EnumWindows(enumHandler, 'Cointiply')
+    Cointiply.resizeTo(200, 200)
     Cointiply.maximize()
 
     # Roll faucet
