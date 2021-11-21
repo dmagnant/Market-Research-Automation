@@ -14,6 +14,11 @@ I created Python files for each site that, when executed, run through tasks on t
 
  | | NOTABLE FEATURES | | 
  
-Cointiply: Ad-views requiring captcha confirmation
+Ad-views requiring captcha confirmation
 
-Rewards are given for viewing ads for a minimum amount of time. For each ad view, the script captures the amount of time (in seconds) to view the ad. Further, to confirm the reward, a captcha is required. Since the site uses the same set of images, I stored each in a directory. The script reads text on the screen to see which image the site is asking to be clicked, finds the image in the directory, screenshots the screen to see which image on screen matches, and clicks the proper image to confirm the reward.
+For one site, rewards are given for viewing ads for a minimum amount of time. For each ad view, the script captures the amount of time (in seconds) to view the ad. Further, to confirm the reward, a captcha is required. Since the site uses the same set of images, I stored each in a directory. The script reads text on the screen to see which image the site is asking to be clicked, finds the image in the directory, screenshots the screen to see which image on screen matches, and clicks the proper image to confirm the reward.
+
+Searches
+
+For multiple sites, rewards are given for using their site as a search engine. Rewards are either given for each search, or given after a certain number of searches. Further, there are checks in place if searches are executed too quickly or without variety. The script provides a random word and delays searches at random to better mimick human action and earn rewards.
+
