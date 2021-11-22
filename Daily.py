@@ -10,7 +10,7 @@ from AmazonGC import confirmAmazonGCBalance
 
 directory = setDirectory()
 closeExpressVPN()
-driver1 = webdriver.Edge(executable_path=directory + r"\Projects\Coding\webdrivers\msedgedriver.exe")
+driver1 = webdriver.Edge(executable_path=(directory + r"\Projects\Coding\webdrivers\msedgedriver.exe"))
 disablePiHole(directory, driver1)
 runBing(directory, driver1)
 driver1.minimize_window()

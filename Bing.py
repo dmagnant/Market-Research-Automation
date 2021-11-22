@@ -1,5 +1,6 @@
 from selenium.common.exceptions import NoSuchElementException
 import time
+import pyautogui
 import os
 from Functions import getUsername, getPassword
 
@@ -42,37 +43,23 @@ def runBing(directory, driver):
     driver.close()
     driver.switch_to.window(bing_window)
 
-    # click on survey - NEED TO EDIT
-    points_links[1].click()
-    time.sleep(1)
-    window_after = driver.window_handles[2]
-    driver.switch_to.window(window_after)
-    time.sleep(1)
-    driver.close()
-    driver.switch_to.window(bing_window)
-    points_links[1].click()
-    time.sleep(1)
-    window_after = driver.window_handles[2]
-    driver.switch_to.window(window_after)
-    # CLICK ON SURVEY OPTION
-    driver.close()
-    driver.switch_to.window(bing_window)
-
     # click on Daily Poll
     points_links[2].click()
     time.sleep(1)
     window_after = driver.window_handles[2]
     driver.switch_to.window(window_after)
-    time.sleep(1)
-    driver.close()
-    driver.switch_to.window(bing_window)
-    time.sleep(1)
-    points_links[2].click()
-    window_after = driver.window_handles[2]
-    driver.switch_to.window(window_after)
+    if driver.find_element_by_xpath('/html/body/div[2]/div[2]/span/a'):
+        time.sleep(1)
+        driver.close()
+        driver.switch_to.window(bing_window)
+        time.sleep(1)
+        points_links[2].click()
+        window_after = driver.window_handles[2]
+        driver.switch_to.window(window_after)
     time.sleep(1)
     try: 
-        driver.find_element_by_id("btoption0").click()
+        if driver.find_element_by_id("btoption0"):
+            pyautogui.leftClick(1225, 925)
     except NoSuchElementException:
         exception = "already clicked"
     driver.close()
