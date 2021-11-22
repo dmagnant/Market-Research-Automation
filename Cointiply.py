@@ -258,6 +258,7 @@ def runCointiply(directory, driver):
     # PROMO - November Monster Mania
     # navigate to address
     driver.get("https://cointiply.com/itemPromos?utm_source=desktop")
+    time.sleep(1)
     # get number of spins
     spins_remaining = driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div/div[2]/div[4]").text.replace("\n", " ").replace(" Spins Remaining", '')
 
