@@ -48,18 +48,27 @@ def runBing(directory, driver):
     time.sleep(1)
     window_after = driver.window_handles[2]
     driver.switch_to.window(window_after)
-    if driver.find_element_by_xpath('/html/body/div[2]/div[2]/span/a'):
-        time.sleep(1)
-        driver.close()
-        driver.switch_to.window(bing_window)
-        time.sleep(1)
-        points_links[2].click()
-        window_after = driver.window_handles[2]
-        driver.switch_to.window(window_after)
+    try:
+        if driver.find_element_by_xpath('/html/body/div[2]/div[2]/span/a'):
+            time.sleep(1)
+            driver.close()
+            driver.switch_to.window(bing_window)
+            time.sleep(1)
+            points_links[2].click()
+            window_after = driver.window_handles[2]
+            driver.switch_to.window(window_after)
+    except NoSuchElementException:
+        exception = "caught"
     time.sleep(1)
     try: 
-        if driver.find_element_by_id("btoption0"):
+        if driver.find_element_by_id("rqStartQuiz"):
+            driver.find_element_by_id("rqStartQuiz").click()
+            time.sleep(2)
+            # click multiple choice option
             pyautogui.leftClick(1225, 925)
+            # click True/False option
+            pyautogui.leftClick(350, 950)
+            time.sleep(1)
     except NoSuchElementException:
         exception = "already clicked"
     driver.close()
@@ -74,6 +83,7 @@ def runBing(directory, driver):
         time.sleep(3)
         # click Redeem Reward
         driver.find_element_by_xpath("//*[@id='redeem-pdp_000800000000']/span[1]").click()
+        time.sleep(3)
         # click Confirm Reward
         driver.find_element_by_xpath("//*[@id='redeem-checkout-review-confirm']/span[1]").click()
         try:
