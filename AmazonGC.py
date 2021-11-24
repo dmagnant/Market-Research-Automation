@@ -1,4 +1,3 @@
-import ctypes
 from Functions import openGnuCashBook, showMessage
 
 def confirmAmazonGCBalance(directory, driver):
