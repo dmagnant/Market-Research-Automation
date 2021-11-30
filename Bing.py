@@ -1,4 +1,4 @@
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException
 import time
 import pyautogui
 import os
@@ -8,6 +8,7 @@ def runBing(directory, driver):
     driver.execute_script("window.open('https://account.microsoft.com/rewards/');")
     bing_window = driver.window_handles[1]
     driver.switch_to.window(bing_window)
+    driver.maximize_window()
     # click Sign in
     driver.find_element_by_xpath("/html/body/div[1]/div[2]/main/section/div[1]/div[2]/section/div[1]/a[2]").click()
     # login
@@ -59,18 +60,17 @@ def runBing(directory, driver):
             driver.switch_to.window(window_after)
     except NoSuchElementException:
         exception = "caught"
+    time.sleep(2)
+    pyautogui.leftClick(350, 950)
+    time.sleep(2)
+    # click multiple choice option
+    pyautogui.leftClick(1225, 925)
+    # click True/False option
+    # click True
+    pyautogui.leftClick(350, 950)
     time.sleep(1)
-    try: 
-        if driver.find_element_by_id("rqStartQuiz"):
-            driver.find_element_by_id("rqStartQuiz").click()
-            time.sleep(2)
-            # click multiple choice option
-            pyautogui.leftClick(1225, 925)
-            # click True/False option
-            pyautogui.leftClick(350, 950)
-            time.sleep(1)
-    except NoSuchElementException:
-        exception = "already clicked"
+    # click False
+    pyautogui.leftClick(425, 950)
     driver.close()
     driver.switch_to.window(bing_window)
 

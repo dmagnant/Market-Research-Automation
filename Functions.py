@@ -89,6 +89,9 @@ def loginPiHole(directory, driver):
     time.sleep(1)
 
 def disablePiHole(directory, driver):
+    driver.maximize_window()
+    pihole_window = driver.window_handles[0]
+    driver.switch_to.window(pihole_window)
     loginPiHole(directory, driver)
     try:
         driver.find_element_by_xpath("//*[@id='pihole-disable']/a/span[2]").click()
@@ -98,6 +101,8 @@ def disablePiHole(directory, driver):
         exception = "already disabled"
 
 def enablePiHole(directory, driver):
+    pihole_window = driver.window_handles[0]
+    driver.switch_to.window(pihole_window)
     loginPiHole(directory, driver)
     try:
         driver.find_element_by_id("enableLabel").click()
