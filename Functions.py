@@ -80,13 +80,16 @@ def loginPiHole(directory, driver):
     driver.implicitly_wait(2)
     driver.get("http://192.168.1.144/admin/")
     driver.maximize_window()
-    #click Login
-    driver.find_element_by_xpath("/html/body/div[2]/aside/section/ul/li[3]/a").click()
-    # Enter Password
-    driver.find_element_by_id("loginpw").send_keys(getPassword(directory, 'Pi hole'))
-    #click Login again
-    driver.find_element_by_xpath("//*[@id='loginform']/div[2]/div/button").click()
-    time.sleep(1)
+    try:
+        #click Login
+        driver.find_element_by_xpath("/html/body/div[2]/aside/section/ul/li[3]/a").click()
+        # Enter Password
+        driver.find_element_by_id("loginpw").send_keys(getPassword(directory, 'Pi hole'))
+        #click Login again
+        driver.find_element_by_xpath("//*[@id='loginform']/div[2]/div/button").click()
+        time.sleep(1)
+    except NoSuchElementException:
+        exception = "already logged in"
 
 def disablePiHole(directory, driver):
     driver.maximize_window()
