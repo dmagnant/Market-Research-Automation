@@ -1,11 +1,10 @@
 from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException, ElementClickInterceptedException, StaleElementReferenceException
 import time
-import ctypes
 import cv2
 import pyautogui
 import pygetwindow
 import win32gui
-from Functions import getUsername, getPassword, enumHandler
+from Functions import getUsername, getPassword, enumHandler, showMessage
 
 def runCointiply(directory, driver):
     # load webpage 
@@ -19,9 +18,7 @@ def runCointiply(directory, driver):
         driver.find_element_by_xpath("//html/body/div/div[2]/section/div[1]/div/div[2]/div/div[3]/form/div[1]/input").send_keys(getUsername(directory, 'Cointiply'))
         # enter password
         driver.find_element_by_xpath("/html/body/div/div[2]/section/div[1]/div/div[2]/div/div[3]/form/div[2]/input").send_keys(getPassword(directory, 'Cointiply'))
-        # handle captcha
-        MessageBox = ctypes.windll.user32.MessageBoxW
-        MessageBox(None, "Verify captcha, then click OK", 'CAPTCHA', 0)
+        showMessage("CAPTCHA", 'Verify captcha, then click OK')
         #click LOGIN
         driver.find_element_by_xpath("/html/body/div[1]/div[2]/section/div[1]/div/div[2]/div/div[3]/form/div[5]/button").click()
     except NoSuchElementException:
@@ -39,10 +36,8 @@ def runCointiply(directory, driver):
     time.sleep(2)
     # click Roll & Win
     try:
-        driver.find_element_by_xpath("//*[@id='app']/div[4]/div/div/div[2]/div[1]/div[1]/div[1]/div/div[1]/div/button").click()
-        # handle captcha
-        MessageBox = ctypes.windll.user32.MessageBoxW
-        MessageBox(None, "Verify captcha, then click OK", 'CAPTCHA', 0)
+        driver.find_element_by_xpath("//*[@id='app']/div[4]/div/div/div[2]/div[2]/div[1]/div[1]/div/div[1]/div/button").click()
+        showMessage("CAPTCHA", 'Verify captcha, then click OK')
         # click Submit Captcha & Roll
         driver.find_element_by_xpath("//*[@id='app']/div[4]/div/div/div[2]/div[1]/div[1]/div[1]/div/div/div/button").click()
         time.sleep(1)
@@ -60,6 +55,9 @@ def runCointiply(directory, driver):
 
     still_ads = True
     while still_ads:
+        while len(driver.window_handles) > 1:
+            driver.switch_to.window(driver.window_handles[len(driver.window_handles)-1])
+            driver.close()
         driver.switch_to.window(main_window)
         # make sure there are coins to be earned
         avail_coins = driver.find_element_by_xpath("//*[@id='app']/div[4]/div/div/div[2]/div[1]/div/div[1]/div[2]").text
@@ -90,14 +88,8 @@ def runCointiply(directory, driver):
                 # Capture "X seconds remaining" element text
                 view_length = driver.find_element_by_xpath("//*[@id='app']/div[4]/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/span").text
             except NoSuchElementException:
-                exception = "already viewed"
-                driver.switch_to.window(window_after)
-                driver.close()
                 continue
             except StaleElementReferenceException:
-                exception = "already viewed"
-                driver.switch_to.window(window_after)
-                driver.close()
                 continue
 
             ## register ad viewing
@@ -198,11 +190,7 @@ def runCointiply(directory, driver):
             elif selection == "Wooden Logs":
                 template = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\wooden logs.png")
             else:
-                MessageBox = ctypes.windll.user32.MessageBoxW
-                MessageBox(None, f'selection not available \n'
-                        , "check captcha", 0)
-                driver.switch_to.window(window_after)
-                driver.close()
+                showMessage("check captcha", 'selection not available')
                 continue
 
             img = cv2.imread(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\captcha_shot.png")
@@ -245,13 +233,7 @@ def runCointiply(directory, driver):
             elif x_coord_avg > 400:
                 driver.find_element_by_xpath("/html/body/div[2]/div[1]/div[2]/div[1]/img[5]").click()
             else:
-                MessageBox = ctypes.windll.user32.MessageBoxW
-                MessageBox(None, f'X Coordinate: {x_coord_avg} \n'
-                                f'not meeting criteria'
-                        , "check captcha", 0)
-            driver.switch_to.window(window_after)
-            driver.close()
-            driver.switch_to.window(main_window)
+                showMessage("check captcha", f'X Coordinate: {x_coord_avg} \n'f'not meeting criteria')
         else:
             still_ads = False
 

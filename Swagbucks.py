@@ -79,8 +79,8 @@ def runSwagbucks(driver, run_Alu):
     #Daily Poll
     driver.implicitly_wait(5)
     driver.execute_script("window.open('https://www.swagbucks.com/polls');")
-    window_after = driver.window_handles[1]
-    driver.switch_to.window(window_after)
+    # switch to last window
+    driver.switch_to.window(driver.window_handles[len(driver.window_handles)-1])
     time.sleep(1)
     try:
         # click on first answer
@@ -100,19 +100,19 @@ def runSwagbucks(driver, run_Alu):
 
     #AdGate Media
     driver.execute_script("window.open('https://www.swagbucks.com/discover/offer-walls/151/adgate-media');")
-    window_after = driver.window_handles[2]
-    driver.switch_to.window(window_after)
+    # switch to last window
+    driver.switch_to.window(driver.window_handles[len(driver.window_handles)-1])
 
     #Inbox
     driver.execute_script("window.open('https://www.swagbucks.com/g/inbox');")
-    window_after = driver.window_handles[3]
-    driver.switch_to.window(window_after)
+    # switch to last window
+    driver.switch_to.window(driver.window_handles[len(driver.window_handles)-1])
 
 
     #Answer
     driver.execute_script("window.open('https://www.swagbucks.com/surveys');")
-    window_after = driver.window_handles[4]
-    driver.switch_to.window(window_after)
+    # switch to last window
+    driver.switch_to.window(driver.window_handles[len(driver.window_handles)-1])
 
     # To Do List
     main = driver.window_handles[4]

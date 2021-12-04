@@ -38,8 +38,8 @@ def runBing(directory, driver):
     # click on first link
     points_links[0].click()
     time.sleep(1)
-    window_after = driver.window_handles[2]
-    driver.switch_to.window(window_after)
+    # switch to last window
+    driver.switch_to.window(driver.window_handles[len(driver.window_handles)-1])
     time.sleep(1)
     driver.close()
     driver.switch_to.window(bing_window)
@@ -47,8 +47,8 @@ def runBing(directory, driver):
     # click on Daily Poll
     points_links[2].click()
     time.sleep(1)
-    window_after = driver.window_handles[2]
-    driver.switch_to.window(window_after)
+    # switch to last window
+    driver.switch_to.window(driver.window_handles[len(driver.window_handles)-1])
     try:
         if driver.find_element_by_xpath('/html/body/div[2]/div[2]/span/a'):
             time.sleep(1)
@@ -56,8 +56,8 @@ def runBing(directory, driver):
             driver.switch_to.window(bing_window)
             time.sleep(1)
             points_links[2].click()
-            window_after = driver.window_handles[2]
-            driver.switch_to.window(window_after)
+            # switch to last window
+            driver.switch_to.window(driver.window_handles[len(driver.window_handles)-1])
     except NoSuchElementException:
         exception = "caught"
     time.sleep(2)
