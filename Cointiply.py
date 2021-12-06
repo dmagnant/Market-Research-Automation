@@ -114,7 +114,7 @@ def runCointiply(directory, driver):
 
             # obtain which image needs to be selected
             try:
-                selection = driver.find_element_by_xpath("/html/body/div[2]/div[1]/div[2]/span[1]").text.replace("Select: ", "")
+                selection = driver.find_element_by_xpath("/html/body/div[2]/div[1]/div[2]/span[1]").text.strip("Select: ")
             except NoSuchElementException:
                 try:
                     # skip ad
@@ -206,10 +206,8 @@ def runCointiply(directory, driver):
                 res = cv2.matchTemplate(img, template, method)
                 min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
                 # If the method is TM_SQDIFF or TM_SQDIFF_NORMED, take minimum
-                if method in [cv2.TM_SQDIFF_NORMED]:
-                    top_left = min_loc
-                else:
-                    top_left = max_loc
+                
+                top_left = min_loc if method in [cv2.TM_SQDIFF_NORMED] else max_loc
                 bottom_right = (top_left[0] + w, top_left[1] + h)
                 cv2.rectangle(img, top_left, bottom_right, 255, 2)
                 # removes the code to draw rectangle (keeping for troubleshooting reference)
@@ -242,7 +240,7 @@ def runCointiply(directory, driver):
     # driver.get("https://cointiply.com/itemPromos?utm_source=desktop")
     # time.sleep(1)
     # # get number of spins
-    # spins_remaining = driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div/div[2]/div[4]").text.replace("\n", " ").replace(" Spins Remaining", '')
+    # spins_remaining = driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div/div[2]/div[4]").text.replace("\n", " ").strip(" Spins Remaining")
 
     # while (spins_remaining.isnumeric()):
     #     try:
@@ -251,6 +249,6 @@ def runCointiply(directory, driver):
     #         # wait 5 seconds
     #         time.sleep(4)
     #         # check if spins remain
-    #         spins_remaining = driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div/div[2]/div[4]").text.replace("\n", " ").replace(" Spins Remaining", '')
+    #         spins_remaining = driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div/div[2]/div[4]").text.replace("\n", " ").strip(" Spins Remaining")
     #     except NoSuchElementException:
     #         exception = "pop-up"

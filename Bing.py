@@ -76,7 +76,7 @@ def runBing(directory, driver):
 
     # capture balance
     time.sleep(3)
-    mr_balance = driver.find_element_by_xpath("//*[@id='userBanner']/mee-banner/div/div/div/div[2]/div[1]/mee-banner-slot-2/mee-rewards-user-status-item/mee-rewards-user-status-balance/div/div/div/div/div/p[1]/mee-rewards-counter-animation/span").text.replace(",", "")
+    mr_balance = driver.find_element_by_xpath("//*[@id='userBanner']/mee-banner/div/div/div/div[2]/div[1]/mee-banner-slot-2/mee-rewards-user-status-item/mee-rewards-user-status-balance/div/div/div/div/div/p[1]/mee-rewards-counter-animation/span").text.strip(',')
     if int(mr_balance) >= 5250:
         # go to $5 Amazon gift card link
         driver.get("https://rewards.microsoft.com/redeem/000800000000")

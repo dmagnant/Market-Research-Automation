@@ -1,5 +1,5 @@
 from Cointiply import runCointiply
-from Presearch import runPresearch
+from Presearch_MR import runPresearch
 from Functions import setDirectory, chromeDriverAsUser
 
 directory = setDirectory()
