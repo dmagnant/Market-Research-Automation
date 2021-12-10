@@ -134,10 +134,10 @@ def runSwagbucks(driver, run_Alu):
         list_item = driver.find_element_by_xpath("/html/body/div[2]/div[1]/header/nav/div[3]/div/div/div/div[2]/div/section[1]/div/ul/li[" + str(list_item_num) + "]/a")
         if list_item.text == "Add In-Store Deal":
             list_item.click()
-            time.sleep(1)
+            time.sleep(2)
             while button_not_clicked:
                 try:
-                    driver.find_element_by_xpath("/html/body/div[2]/div[3]/div[2]/div[1]/main/div/div[2]/div[2]/div[2]/div/div/a[" + str(button_num) +"]/div[2]/button[1]").click()
+                    driver.find_element_by_xpath("/html/body/div[2]/div[3]/div[3]/div[1]/main/div/div[2]/div[2]/div[2]/div/div/a[" + str(button_num) +"]/div[2]/button[1]").click()
                     button_not_clicked = False
                 except ElementNotInteractableException:
                     exception = "already clicked"
@@ -166,7 +166,7 @@ def runSwagbucks(driver, run_Alu):
     delay = [1, 2, 3]
     searches = 0
     num = 0
-    while num < 2:
+    while num < 1:
         search_term1 = None
         search_term2 = None
         search_term = None

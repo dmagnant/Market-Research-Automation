@@ -178,7 +178,6 @@ def runCointiply(directory, driver):
     spins_remaining = driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div[1]/div[2]/div[1]").text.replace("\n", " ").strip(" Spins Remaining")
 
     while (int(spins_remaining) > 0):
-        print(spins_remaining)
         try:
             # click spin
             driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div[3]/div[3]").click()
