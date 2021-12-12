@@ -16,9 +16,9 @@ def runPinecone(driver):
     if float(balance) >= 300:
         try:
             # Click Redeem
-            driver.find_element_by_id("3").click()
+            driver.get('https://rewards.pineconeresearch.com/')
             # Click Shop
-            driver.find_element_by_xpath("//*[@id='navbarContent']/ul/li[3]/a").click()
+            driver.find_element_by_xpath("//*[@id='navbarContent']/ul/li[5]/a").click()
             # click WishList
             driver.find_element_by_xpath("//*[@id='navbarContent']/ul/li[3]/div/a[4]").click()
             # click link for product
