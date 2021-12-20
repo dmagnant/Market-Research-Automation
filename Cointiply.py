@@ -4,7 +4,6 @@ import cv2
 import numpy as np
 import pyautogui
 import pygetwindow
-# import win32gui
 # from matplotlib import pyplot as plt
 from Functions import getUsername, getPassword, showMessage
 
@@ -28,10 +27,12 @@ def runCointiply(directory, driver):
 
     # move window to primary monitor
     Cointiply = pygetwindow.getWindowsWithTitle('Cointiply Bitcoin Rewards - Earn Free Bitcoin - Google Chrome')[0]
+    Cointiply.moveTo(10, 10)
     Cointiply.resizeTo(100, 100)
-    # win32gui.EnumWindows(enumHandler, 'Cointiply Bitcoin Rewards')
-    Cointiply.resizeTo(200, 200)
     Cointiply.maximize()
+    # win32gui.EnumWindows(enumHandler, 'Cointiply Bitcoin Rewards')
+    # Cointiply.resizeTo(200, 200)
+    # Cointiply.maximize()
 
     # Roll faucet
     driver.get("https://cointiply.com/home?intent=faucet")

@@ -3,7 +3,6 @@ import time
 import random
 from selenium.webdriver.common.keys import Keys
 import pyautogui
-# import win32gui
 import pygetwindow
 from random_word import RandomWords
 from Functions import closeExpressVPN, showMessage
@@ -17,10 +16,9 @@ def runAlusRevenge(driver, run_Alu):
 
         # move window to primary monitor
         Alu = pygetwindow.getWindowsWithTitle("Alu's Revenge 2 - Free Online Games | Swagbucks - Google Chrome")[0]
-        Alu.resizeTo(100, 100)
-        # win32gui.EnumWindows(enumHandler, "Alu's Revenge")
+        Alu.moveTo(10, 10)
+        Alu.resizeTo(100, 100)          
         Alu.maximize()
-
         # click Play for Free
         driver.implicitly_wait(20)
         driver.find_element_by_id("gamesItemBtn").click()
