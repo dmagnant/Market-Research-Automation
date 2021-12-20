@@ -11,7 +11,9 @@ def runPinecone(driver):
     # click login
     driver.find_element_by_xpath("//*[@id='mainContainer']/div/div/div[1]/div/form/button").click()
     time.sleep(3)
-    balance = driver.find_element_by_xpath("//*[@id='basic-navbar-nav']/div/form/button/div").text
+    balance = ''
+    while balance == '':
+        balance = driver.find_element_by_xpath("//*[@id='basic-navbar-nav']/div/form/button/div").text
     print(balance)
     if float(balance) >= 300:
         try:

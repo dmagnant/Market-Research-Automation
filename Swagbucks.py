@@ -3,10 +3,10 @@ import time
 import random
 from selenium.webdriver.common.keys import Keys
 import pyautogui
-import win32gui
+# import win32gui
 import pygetwindow
 from random_word import RandomWords
-from Functions import enumHandler, closeExpressVPN, showMessage
+from Functions import closeExpressVPN, showMessage
 
 def runAlusRevenge(driver, run_Alu):
     if run_Alu:
@@ -18,7 +18,7 @@ def runAlusRevenge(driver, run_Alu):
         # move window to primary monitor
         Alu = pygetwindow.getWindowsWithTitle("Alu's Revenge 2 - Free Online Games | Swagbucks - Google Chrome")[0]
         Alu.resizeTo(100, 100)
-        win32gui.EnumWindows(enumHandler, "Alu's Revenge")
+        # win32gui.EnumWindows(enumHandler, "Alu's Revenge")
         Alu.maximize()
 
         # click Play for Free
@@ -140,7 +140,6 @@ def runSwagbucks(driver, run_Alu):
                     driver.find_element_by_xpath("/html/body/div[2]/div[3]/div[3]/div[1]/main/div/div[2]/div[2]/div[2]/div/div/a[" + str(button_num) +"]/div[2]/button[1]").click()
                     button_not_clicked = False
                 except ElementNotInteractableException:
-                    exception = "already clicked"
                     button_num += 1
         elif list_item.text == "Deal of the Day":
             list_item.click()

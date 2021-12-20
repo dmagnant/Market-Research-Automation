@@ -4,9 +4,9 @@ import cv2
 import numpy as np
 import pyautogui
 import pygetwindow
-import win32gui
+# import win32gui
 # from matplotlib import pyplot as plt
-from Functions import getUsername, getPassword, enumHandler, showMessage
+from Functions import getUsername, getPassword, showMessage
 
 def runCointiply(directory, driver):
     # load webpage 
@@ -29,7 +29,7 @@ def runCointiply(directory, driver):
     # move window to primary monitor
     Cointiply = pygetwindow.getWindowsWithTitle('Cointiply Bitcoin Rewards - Earn Free Bitcoin - Google Chrome')[0]
     Cointiply.resizeTo(100, 100)
-    win32gui.EnumWindows(enumHandler, 'Cointiply Bitcoin Rewards')
+    # win32gui.EnumWindows(enumHandler, 'Cointiply Bitcoin Rewards')
     Cointiply.resizeTo(200, 200)
     Cointiply.maximize()
 
@@ -93,8 +93,10 @@ def runCointiply(directory, driver):
             driver.switch_to.window(window_after)
             # time.sleep(1)
             driver.switch_to.window(main_window)
-            # click on screen
+            current_pos = pyautogui.position()
+            # click on screen, move back to current_pos
             pyautogui.leftClick(1150, 250)
+            pyautogui.moveTo(current_pos)
             driver.switch_to.window(window_after)
             try:
                 view_length = int(view_length[0] + view_length[1]) + 3
@@ -105,7 +107,7 @@ def runCointiply(directory, driver):
                 continue
 
             driver.switch_to.window(main_window)
-            # time.sleep(1)
+            time.sleep(1)
 
             ##
             # obtain which image needs to be selected
@@ -119,7 +121,7 @@ def runCointiply(directory, driver):
                     continue
                 except NoSuchElementException:
                     continue
-            # time.sleep(1)
+            time.sleep(1)
             # take screenshot of captcha images
             myScreenshot = pyautogui.screenshot(region=(650, 400, 600, 400))
             myScreenshot.save(directory + r"\Projects\Coding\Python\MRAutomation\Resources\captcha images\captcha_shot.png")
@@ -175,15 +177,14 @@ def runCointiply(directory, driver):
     driver.get("https://cointiply.com/itemPromos?utm_source=desktop")
     time.sleep(1)
     # get number of spins
-    spins_remaining = driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div[1]/div[2]/div[1]").text.replace("\n", " ").strip(" Spins Remaining")
-
+    spins_remaining = driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div[1]/div[2]/div[1]").text
+    print(spins_remaining)
     while (int(spins_remaining) > 0):
         try:
             # click spin
             driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div[3]/div[3]").click()
             # wait 5 seconds
-            time.sleep(4)
-            # check if spins remain
+            time.sleep(5)
             spins_remaining = driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div[1]/div[2]/div[1]").text.replace("\n", " ").strip(" Spins Remaining")
         except NoSuchElementException:
             exception = "pop-up"

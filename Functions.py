@@ -3,7 +3,7 @@ from selenium.common.exceptions import NoSuchElementException, ElementNotInterac
 import socket
 from pykeepass import PyKeePass
 import os
-import win32gui
+# import win32gui
 import psutil
 import time
 import ctypes
@@ -16,10 +16,10 @@ def showMessage(header, body):
     MessageBox = ctypes.windll.user32.MessageBoxW
     MessageBox(None, body, header, 0)
 
-def enumHandler(hwnd, title):
-    if win32gui.IsWindowVisible(hwnd):
-        if title in win32gui.GetWindowText(hwnd):
-            win32gui.MoveWindow(hwnd, 0, 0, 100, 100, True)
+# def enumHandler(hwnd, title):
+#     if win32gui.IsWindowVisible(hwnd):
+#         if title in win32gui.GetWindowText(hwnd):
+#             win32gui.MoveWindow(hwnd, 0, 0, 100, 100, True)
 
 def checkIfProcessRunning(processName):
     # Iterate over the all the running process
