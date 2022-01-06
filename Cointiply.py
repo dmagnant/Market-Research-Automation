@@ -4,10 +4,11 @@ import cv2
 import numpy as np
 import pyautogui
 import pygetwindow
+from datetime import datetime
 # from matplotlib import pyplot as plt
 from Functions import getUsername, getPassword, showMessage
 
-def runCointiply(directory, driver):
+def runCointiply(directory, driver, run_faucet=True):
     # load webpage 
     driver.implicitly_wait(2)
     driver.get("https://cointiply.com/login")
@@ -30,22 +31,22 @@ def runCointiply(directory, driver):
     Cointiply.moveTo(10, 10)
     Cointiply.resizeTo(100, 100)
     Cointiply.maximize()
-    # win32gui.EnumWindows(enumHandler, 'Cointiply Bitcoin Rewards')
-    # Cointiply.resizeTo(200, 200)
-    # Cointiply.maximize()
-
-    # Roll faucet
-    driver.get("https://cointiply.com/home?intent=faucet")
-    time.sleep(2)
-    # click Roll & Win
-    try:
-        driver.find_element_by_xpath("//*[@id='app']/div[4]/div/div/div[2]/div[2]/div[1]/div[1]/div/div[1]/div/button").click()
-        showMessage("CAPTCHA", 'Verify captcha, then click OK')
-        # click Submit Captcha & Roll
-        driver.find_element_by_xpath("//*[@id='app']/div[4]/div/div/div[2]/div[1]/div[1]/div[1]/div/div/div/button").click()
-        time.sleep(1)
-    except NoSuchElementException:
-        exception = "gotta wait"
+    
+    if run_faucet:
+        # Roll faucet
+        driver.get("https://cointiply.com/home?intent=faucet")
+        time.sleep(2)
+        # click Roll & Win
+        try:
+            driver.find_element_by_xpath("//*[@id='app']/div[4]/div/div/div[2]/div[2]/div[1]/div[1]/div/div[1]/div/button").click()
+            showMessage("CAPTCHA", 'Verify captcha, then click OK')
+            # click Submit Captcha & Roll
+            driver.find_element_by_xpath("//*[@id='app']/div[4]/div/div/div[2]/div[1]/div[1]/div[1]/div/div/div/button").click()
+            time.sleep(1)
+        except NoSuchElementException:
+            exception = "gotta wait"
+    # capture time when faucet is completed (used for Hourly Script)
+    faucet_complete = datetime.now().time()
 
     # PTC Ads
     driver.get("https://cointiply.com/ptc")
@@ -166,26 +167,24 @@ def runCointiply(directory, driver):
                 img_num = 4
             elif x_coord_avg > 400:
                 img_num = 5
-            print('click: ' + selection)
             driver.find_element_by_xpath("/html/body/div[2]/div[1]/div[2]/div[1]/img[" + str(img_num) + "]").click()
-            print('clicked: ' + selection)
             # time.sleep(1)
         else:
             still_ads = False
 
-    # # PROMO - Candy Chaos
-    # # navigate to address
-    driver.get("https://cointiply.com/itemPromos?utm_source=desktop")
-    time.sleep(1)
-    # get number of spins
-    spins_remaining = driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div[1]/div[2]/div[1]").text
-    print(spins_remaining)
-    while (int(spins_remaining) > 0):
-        try:
-            # click spin
-            driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div[3]/div[3]").click()
-            # wait 5 seconds
-            time.sleep(5)
-            spins_remaining = driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div[1]/div[2]/div[1]").text.replace("\n", " ").strip(" Spins Remaining")
-        except NoSuchElementException:
-            exception = "pop-up"
+    # # # PROMO - Candy Chaos
+    # # # navigate to address
+    # driver.get("https://cointiply.com/itemPromos?utm_source=desktop")
+    # time.sleep(1)
+    # # get number of spins
+    # spins_remaining = driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div[1]/div[2]/div[1]").text
+    # while (int(spins_remaining) > 0):
+    #     try:
+    #         # click spin
+    #         driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div[3]/div[3]").click()
+    #         # wait 5 seconds
+    #         time.sleep(5)
+    #         spins_remaining = driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div[1]/div[2]/div[1]").text.replace("\n", " ").strip(" Spins Remaining")
+    #     except NoSuchElementException:
+    #         exception = "pop-up"
+    return faucet_complete

@@ -1,5 +1,4 @@
 import time
-import random
 from random_word import RandomWords
 
 def runPresearch(driver):
