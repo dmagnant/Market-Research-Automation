@@ -60,6 +60,14 @@ def chromeDriverBlank(directory):
     chromedriver = directory + r"\Projects\Coding\webdrivers\chromedriver.exe"
     return webdriver.Chrome(executable_path=chromedriver)
 
+def braveBrowserAsUser(directory):
+    chromedriver = directory + r"\Projects\Coding\webdrivers\chromedriver.exe"
+    options = webdriver.ChromeOptions()
+    options.add_argument(r"user-data-dir=C:\Users\dmagn\AppData\Local\BraveSoftware\Brave-Browser\User Data1")
+    options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    options.binary_location = "C:\Program Files\BraveSoftware\Brave-Browser\Application\chrome.exe"
+    return webdriver.Chrome(executable_path=chromedriver, options=options)
+
 def getUsername(directory, name):
     keepass_file = directory + r"\Other\KeePass.kdbx"
     KeePass = PyKeePass(keepass_file, password=os.environ.get('KeePass'))

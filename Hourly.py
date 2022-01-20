@@ -2,40 +2,57 @@ from selenium.common.exceptions import InvalidArgumentException
 import os
 from datetime import datetime
 import time
-
+import pyautogui
 from Cointiply import runCointiply
 from Presearch_MR import runPresearch
-from Functions import setDirectory, chromeDriverAsUser
+from Functions import setDirectory, chromeDriverAsUser, braveBrowserAsUser
 
-directory = setDirectory()
-
-while True:
-    now = datetime.now().time()
-    today9am = now.replace(hour=9, minute=0, second=0, microsecond=0)
-    today8pm = now.replace(hour=20, minute=0, second=0, microsecond=0)
-    run_faucet = True if now > today9am and now < today8pm else False
-    # run_faucet = False          # activate this line to run passively (such as when away for weekend)
+def clearChromeWindows(directory):
     try:
         driver = chromeDriverAsUser(directory)
     except InvalidArgumentException:
         os.system("taskkill /im chrome.exe /f")
         driver = chromeDriverAsUser(directory)
-    runPresearch(driver)
-    faucet_complete = runCointiply(directory, driver, run_faucet)
-    runPresearch(driver)
-    driver.quit()
-    script_complete = datetime.now().time()
+    return driver
 
-    def findDiff(time_diff):
-        return time_diff if (time_diff) >= 0 else time_diff + 60
+def timeOfNextRun(faucet_complete):
+        hour = faucet_complete.hour
+        hourfromcomplete = hour + 1 if hour <= 22 else 0
+        return faucet_complete.replace(hour=hourfromcomplete)
 
-    def PTCAdTime(faucet_complete, script_complete):
-        min_diff = script_complete.minute - faucet_complete.minute
-        minutes_ran = findDiff(min_diff)
-        sec_diff = script_complete.second - faucet_complete.second
-        seconds_ran = findDiff(sec_diff)
-        return minutes_ran * 60 + seconds_ran
+time9am = datetime.now().time().replace(hour=9, minute=0, second=0, microsecond=0)
+time8pm = datetime.now().time().replace(hour=20, minute=0, second=0, microsecond=0)
+time11pm = datetime.now().time().replace(hour=23, minute=0, second=0, microsecond=0)
 
-    time_to_wait = 3600 - PTCAdTime(faucet_complete, script_complete)
-    print('next run at ', faucet_complete.replace(hour=now.hour+1))
-    time.sleep(time_to_wait)
+directory = setDirectory()
+
+brave = braveBrowserAsUser(directory)
+with pyautogui.hold('ctrl'):
+    pyautogui.press('t')
+brave.switch_to.window(brave.window_handles[0])
+while len(brave.window_handles) > 1:
+    brave.close()
+    brave.switch_to.window(brave.window_handles[0])
+brave.minimize_window()
+
+driver = clearChromeWindows(directory)
+time.sleep(3)
+faucet_complete = runCointiply(directory, driver, True)
+driver.quit()
+nextRun = timeOfNextRun(faucet_complete)
+print('next run at ', nextRun)
+while True:
+    now = datetime.now().time()
+    if now > nextRun and now < time11pm:
+        driver = clearChromeWindows(directory)
+        run_faucet = True if now > time9am and now < time8pm else False
+        # run_faucet = False          # activate this line to run passively indefinitely
+        runPresearch(driver)
+        faucet_complete = runCointiply(directory, driver, run_faucet)
+        nextRun = timeOfNextRun(faucet_complete)
+        runPresearch(driver)
+        driver.quit()
+        print('next run at ', nextRun)
+    else:
+        brave.refresh()
+    time.sleep(20)

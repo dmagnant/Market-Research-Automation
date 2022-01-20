@@ -42,7 +42,7 @@ def runCointiply(directory, driver, run_faucet=True):
             showMessage("CAPTCHA", 'Verify captcha, then click OK')
             # click Submit Captcha & Roll
             driver.find_element_by_xpath("//*[@id='app']/div[4]/div/div/div[2]/div[1]/div[1]/div[1]/div/div/div/button").click()
-            time.sleep(1)
+            time.sleep(2)
         except NoSuchElementException:
             exception = "gotta wait"
     # capture time when faucet is completed (used for Hourly Script)
@@ -111,7 +111,6 @@ def runCointiply(directory, driver, run_faucet=True):
             driver.switch_to.window(main_window)
             time.sleep(1)
 
-            ##
             # obtain which image needs to be selected
             try:
                 selection = driver.find_element_by_xpath("/html/body/div[2]/div[1]/div[2]/span[1]").text.replace("Select: ", "")

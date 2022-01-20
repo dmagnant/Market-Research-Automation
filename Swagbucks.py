@@ -126,7 +126,11 @@ def runSwagbucks(driver, run_Alu):
                 # if not visible, click to show To Do List
                 driver.find_element_by_xpath("/html/body/div[2]/div[1]/header/nav/div[3]/button/span/span[1]").click()
             except NoSuchElementException:
-                break
+                try:
+                    # if not visible, click to show To Do List
+                    driver.find_element_by_xpath('/html/body/div[2]/div[1]/header/nav/div[3]/button/span/span[2]').click()
+                except NoSuchElementException:
+                    break
         time.sleep(1)
         # get title of List Item
         list_item = driver.find_element_by_xpath("/html/body/div[2]/div[1]/header/nav/div[3]/div/div/div/div[2]/div/section[1]/div/ul/li[" + str(list_item_num) + "]/a")
@@ -154,6 +158,7 @@ def runSwagbucks(driver, run_Alu):
             driver.find_element_by_xpath("/html/body/div/div/div/div/div[5]/a").click()
             time.sleep(3)
             driver.switch_to.window(main)
+            time.sleep(1)
         list_item_num += 1
 
     #Daily Search
