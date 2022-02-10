@@ -1,6 +1,6 @@
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException
-import socket
 from pykeepass import PyKeePass
 import os
 import psutil
@@ -84,11 +84,11 @@ def loginPiHole(directory, driver):
     driver.maximize_window()
     try:
         #click Login
-        driver.find_element_by_xpath("/html/body/div[2]/aside/section/ul/li[3]/a").click()
+        driver.find_element(By.XPATH, "/html/body/div[2]/aside/section/ul/li[3]/a").click()
         # Enter Password
-        driver.find_element_by_id("loginpw").send_keys(getPassword(directory, 'Pi hole'))
+        driver.find_element(By.ID, "loginpw").send_keys(getPassword(directory, 'Pi hole'))
         #click Login again
-        driver.find_element_by_xpath("//*[@id='loginform']/div[2]/div/button").click()
+        driver.find_element(By.XPATH, "//*[@id='loginform']/div[2]/div/button").click()
         time.sleep(1)
     except NoSuchElementException:
         exception = "already logged in"
@@ -99,9 +99,9 @@ def disablePiHole(directory, driver):
     driver.switch_to.window(pihole_window)
     loginPiHole(directory, driver)
     try:
-        driver.find_element_by_xpath("//*[@id='pihole-disable']/a/span[2]").click()
+        driver.find_element(By.XPATH, "//*[@id='pihole-disable']/a/span[2]").click()
         # Click Indefinitely
-        driver.find_element_by_xpath("//*[@id='pihole-disable-indefinitely']").click()
+        driver.find_element(By.XPATH, "//*[@id='pihole-disable-indefinitely']").click()
     except ElementNotInteractableException:
         exception = "already disabled"
 
@@ -110,7 +110,7 @@ def enablePiHole(directory, driver):
     driver.switch_to.window(pihole_window)
     loginPiHole(directory, driver)
     try:
-        driver.find_element_by_id("enableLabel").click()
+        driver.find_element(By.ID, "enableLabel").click()
     except NoSuchElementException:
         exception = "already enabled"
     except ElementNotInteractableException:

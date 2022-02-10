@@ -1,3 +1,4 @@
+from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException, ElementClickInterceptedException, StaleElementReferenceException
 import time
 import cv2
@@ -17,12 +18,12 @@ def runCointiply(directory, driver, run_faucet=True):
     #Login
     try:
         # enter email
-        driver.find_element_by_xpath("//html/body/div/div[2]/section/div[1]/div/div[2]/div/div[3]/form/div[1]/input").send_keys(getUsername(directory, 'Cointiply'))
+        driver.find_element(By.XPATH, "//html/body/div/div[2]/section/div[1]/div/div[2]/div/div[3]/form/div[1]/input").send_keys(getUsername(directory, 'Cointiply'))
         # enter password
-        driver.find_element_by_xpath("/html/body/div/div[2]/section/div[1]/div/div[2]/div/div[3]/form/div[2]/input").send_keys(getPassword(directory, 'Cointiply'))
+        driver.find_element(By.XPATH, "/html/body/div/div[2]/section/div[1]/div/div[2]/div/div[3]/form/div[2]/input").send_keys(getPassword(directory, 'Cointiply'))
         showMessage("CAPTCHA", 'Verify captcha, then click OK')
         #click LOGIN
-        driver.find_element_by_xpath("/html/body/div[1]/div[2]/section/div[1]/div/div[2]/div/div[3]/form/div[5]/button").click()
+        driver.find_element(By.XPATH, "/html/body/div[1]/div[2]/section/div[1]/div/div[2]/div/div[3]/form/div[5]/button").click()
     except NoSuchElementException:
         exception = "already logged in"
 
@@ -38,10 +39,10 @@ def runCointiply(directory, driver, run_faucet=True):
         time.sleep(2)
         # click Roll & Win
         try:
-            driver.find_element_by_xpath("//*[@id='app']/div[4]/div/div/div[2]/div[2]/div[1]/div[1]/div/div[1]/div/button").click()
+            driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[2]/div[2]/div[1]/div[1]/div/div[1]/div/button").click()
             showMessage("CAPTCHA", 'Verify captcha, then click OK')
             # click Submit Captcha & Roll
-            driver.find_element_by_xpath("//*[@id='app']/div[4]/div/div/div[2]/div[1]/div[1]/div[1]/div/div/div/button").click()
+            driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[2]/div[1]/div[1]/div[1]/div/div/div/button").click()
             time.sleep(2)
         except NoSuchElementException:
             exception = "gotta wait"
@@ -63,30 +64,30 @@ def runCointiply(directory, driver, run_faucet=True):
             driver.close()
         driver.switch_to.window(main_window)
         # make sure there are coins to be earned
-        avail_coins = driver.find_element_by_xpath("//*[@id='app']/div[4]/div/div/div[2]/div[1]/div/div[1]/div[2]").text
+        avail_coins = driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[2]/div[1]/div/div[1]/div[2]").text
         if int(avail_coins[0]) > 0:
             try:
                 # click to enable Rain Pool button
-                driver.find_element_by_xpath("//*[@id='app']/div[4]/div/div/div[1]/div[4]/div[2]/div/div[2]/span[3]").click()
+                driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[1]/div[4]/div[2]/div/div[2]/span[3]").click()
                 time.sleep(1)
                 # "Click to qualify for rain pool
-                driver.find_element_by_xpath("//*[@id='app']/div[4]/div/div/div[1]/div[4]/div[2]/div/div[2]/div/label[2]").click()
+                driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[1]/div[4]/div[2]/div/div[2]/div/label[2]").click()
                 time.sleep(1)
                 # click I UNDERSTAND
                 try:
-                    driver.find_element_by_xpath("/html/body/div[2]/div[1]/div[3]/button[2]").click()
+                    driver.find_element(By.XPATH, "/html/body/div[2]/div[1]/div[3]/button[2]").click()
                 except NoSuchElementException:
-                    driver.find_element_by_xpath("/html/body/div[3]/div[1]/div[3]/button[2]").click()
+                    driver.find_element(By.XPATH, "/html/body/div[3]/div[1]/div[3]/button[2]").click()
             except (ElementNotInteractableException, ElementClickInterceptedException):
                 exception = "already registered"
             time.sleep(1)
             # click on view highest paying add link
-            driver.find_element_by_xpath("//*[@id='app']/div[4]/div/div/div[2]/div[1]/div/div[1]/div[3]/button").click()
+            driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[2]/div[1]/div/div[1]/div[3]/button").click()
             # Obtain how long ad needs to be viewed for
             driver.switch_to.window(main_window)
             try:
                 # Capture "X seconds remaining" element text
-                view_length = driver.find_element_by_xpath("//*[@id='app']/div[4]/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/span").text
+                view_length = driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/span").text
             except (NoSuchElementException, StaleElementReferenceException):
                 continue
 
@@ -113,12 +114,12 @@ def runCointiply(directory, driver, run_faucet=True):
 
             # obtain which image needs to be selected
             try:
-                selection = driver.find_element_by_xpath("/html/body/div[2]/div[1]/div[2]/span[1]").text.replace("Select: ", "")
+                selection = driver.find_element(By.XPATH, "/html/body/div[2]/div[1]/div[2]/span[1]").text.replace("Select: ", "")
             except NoSuchElementException:
                 try:
                     # skip ad
                     print('skipped ad')
-                    driver.find_element_by_id("//*[@id='app']/div[4]/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/button").click()
+                    driver.find_element(By.ID, "//*[@id='app']/div[4]/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/button").click()
                     continue
                 except NoSuchElementException:
                     continue
@@ -166,7 +167,7 @@ def runCointiply(directory, driver, run_faucet=True):
                 img_num = 4
             elif x_coord_avg > 400:
                 img_num = 5
-            driver.find_element_by_xpath("/html/body/div[2]/div[1]/div[2]/div[1]/img[" + str(img_num) + "]").click()
+            driver.find_element(By.XPATH, "/html/body/div[2]/div[1]/div[2]/div[1]/img[" + str(img_num) + "]").click()
             # time.sleep(1)
         else:
             still_ads = False
@@ -176,14 +177,14 @@ def runCointiply(directory, driver, run_faucet=True):
     # driver.get("https://cointiply.com/itemPromos?utm_source=desktop")
     # time.sleep(1)
     # # get number of spins
-    # spins_remaining = driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div[1]/div[2]/div[1]").text
+    # spins_remaining = driver.find_element(By.XPATH, "/html/body/div/div/div[4]/div/div[1]/div[1]/div[2]/div[1]").text
     # while (int(spins_remaining) > 0):
     #     try:
     #         # click spin
-    #         driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div[3]/div[3]").click()
+    #         driver.find_element(By.XPATH, "/html/body/div/div/div[4]/div/div[1]/div[3]/div[3]").click()
     #         # wait 5 seconds
     #         time.sleep(5)
-    #         spins_remaining = driver.find_element_by_xpath("/html/body/div/div/div[4]/div/div[1]/div[1]/div[2]/div[1]").text.replace("\n", " ").strip(" Spins Remaining")
+    #         spins_remaining = driver.find_element(By.XPATH, "/html/body/div/div/div[4]/div/div[1]/div[1]/div[2]/div[1]").text.replace("\n", " ").strip(" Spins Remaining")
     #     except NoSuchElementException:
     #         exception = "pop-up"
     return faucet_complete

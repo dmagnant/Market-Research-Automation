@@ -1,7 +1,8 @@
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException, NoSuchWindowException, WebDriverException, ElementClickInterceptedException
 import time
 import random
-from selenium.webdriver.common.keys import Keys
 import pyautogui
 import pygetwindow
 from random_word import RandomWords
@@ -21,7 +22,7 @@ def runAlusRevenge(driver, run_Alu):
         Alu.maximize()
         # click Play for Free
         driver.implicitly_wait(20)
-        driver.find_element_by_id("gamesItemBtn").click()
+        driver.find_element(By.ID, "gamesItemBtn").click()
         time.sleep(3)
         redeemed = 0
         while redeemed < 5:
@@ -46,15 +47,15 @@ def runAlusRevenge(driver, run_Alu):
             time.sleep(25)
             while num < 5:
                 # if Game over screen up
-                if driver.find_element_by_id("closeEmbedContainer"):
+                if driver.find_element(By.ID, "closeEmbedContainer"):
                     time.sleep(5)
                     #read response
-                    game_over_text = driver.find_element_by_xpath("//*[@id='embedGameOverHdr']/h3").text
+                    game_over_text = driver.find_element(By.XPATH, "//*[@id='embedGameOverHdr']/h3").text
                     if game_over_text != "":
                         if game_over_text != "No SB this time. Keep trying...":
                             redeemed += 1
                         # click Play again
-                        driver.find_element_by_id("gamePlayAgainBtn").click()
+                        driver.find_element(By.ID, "gamePlayAgainBtn").click()
                         time.sleep(3)
                         break
                 num += 1
@@ -66,7 +67,7 @@ def runSwagbucks(driver, run_Alu):
     driver.get("https://www.swagbucks.com/")
     driver.maximize_window()
     try:
-        driver.find_element_by_id("lightboxExit").click()
+        driver.find_element(By.ID, "lightboxExit").click()
     except ElementNotInteractableException:
         exception = "caught"
     except NoSuchElementException:
@@ -82,9 +83,9 @@ def runSwagbucks(driver, run_Alu):
     time.sleep(1)
     try:
         # click on first answer
-        driver.find_element_by_css_selector("td.pollMainAnswerText").click()
+        driver.find_element(By.CSS_SELECTOR, "td.pollMainAnswerText").click()
         # click Vote & Earn
-        driver.find_element_by_xpath("/html/body/div[2]/div[3]/div[2]/div[1]/div/div[2]/div[2]/div[1]/div[5]/div[2]/div[2]/div[1]/div[1]").click()
+        driver.find_element(By.XPATH, "/html/body/div[2]/div[3]/div[2]/div[1]/div/div[2]/div[2]/div[1]/div[5]/div[2]/div[2]/div[1]/div[1]").click()
     except NoSuchElementException:
         exception = "already answered"
 
@@ -120,43 +121,54 @@ def runSwagbucks(driver, run_Alu):
     while list_item_num <= 8:
         try:
             # look for Daily Bonus header 
-            driver.find_element_by_xpath("/html/body/div[2]/div[1]/header/nav/div[3]/div/div/div/div[1]/h4")
+            driver.find_element(By.XPATH, "/html/body/div[2]/div[1]/header/nav/div[3]/div/div/div/div[1]/h4")
         except NoSuchElementException:
             try:
                 # if not visible, click to show To Do List
-                driver.find_element_by_xpath("/html/body/div[2]/div[1]/header/nav/div[3]/button/span/span[1]").click()
+                driver.find_element(By.XPATH, "/html/body/div[2]/div[1]/header/nav/div[3]/button/span/span[1]").click()
+                driver.find_element(By.XPATH, '/html/body/div[2]/div[1]/header/nav/div[3]/button/span/span[2]').click()
+                driver.find_element(By.XPATH, '/html/body/div[2]/div[1]/header/nav/div[3]/button/span/span[3]').click()
             except NoSuchElementException:
-                try:
-                    # if not visible, click to show To Do List
-                    driver.find_element_by_xpath('/html/body/div[2]/div[1]/header/nav/div[3]/button/span/span[2]').click()
-                except NoSuchElementException:
-                    break
+                exception = "caught"
         time.sleep(1)
         # get title of List Item
-        list_item = driver.find_element_by_xpath("/html/body/div[2]/div[1]/header/nav/div[3]/div/div/div/div[2]/div/section[1]/div/ul/li[" + str(list_item_num) + "]/a")
+        list_item = driver.find_element(By.XPATH, "/html/body/div[2]/div[1]/header/nav/div[3]/div/div/div/div[2]/div/section[1]/div/ul/li[" + str(list_item_num) + "]/a")
+        print(list_item.text)
         if list_item.text == "Add A Magic Receipts Offer":
             list_item.click()
             time.sleep(2)
             while button_not_clicked:
                 try:
-                    driver.find_element_by_xpath("/html/body/div[2]/div[3]/div[3]/div[1]/main/div/div[2]/div[2]/div[2]/div/div/a[" + str(button_num) +"]/div[2]/button[1]").click()
+                    driver.find_element(By.XPATH, "/html/body/div[2]/div[3]/div[3]/div[1]/main/div/div[2]/div[2]/div[2]/div/div/a[" + str(button_num) +"]/div[2]/button[1]").click()
                     button_not_clicked = False
                 except ElementNotInteractableException:
                     button_num += 1
         elif list_item.text == "Deal of the Day":
+            window_num_before = len(driver.window_handles)
             list_item.click()
             time.sleep(6)
+            window_num_after = len(driver.window_handles)
+            if window_num_before == window_num_after:
+                driver.back()
+            else:
+                driver.switch_to.window(driver.window_handles[len(driver.window_handles)-1])
+                driver.close
+                driver.switch_to.window(main)
         elif list_item.text == "Daily Watch":
             list_item.click()
             driver.implicitly_wait(20)
             try:
-                driver.find_element_by_xpath("/html/body/div[2]/div/div[1]/div/button").click()
+                driver.find_element(By.XPATH, "/html/body/div[2]/div/div[1]/div/button").click()
                 time.sleep(2)
             except NoSuchElementException:
                 exception = "caught"
             # click Discover Content
-            driver.find_element_by_xpath("/html/body/div/div/div/div/div[5]/a").click()
+            driver.find_element(By.XPATH, "/html/body/div/div/div/div/div[5]/a").click()
             time.sleep(3)
+            driver.execute_script("window.open('https://www.swagbucks.com/');")
+            time.sleep(3)
+            # switch to last window
+            main = driver.window_handles[len(driver.window_handles)-1]
             driver.switch_to.window(main)
             time.sleep(1)
         list_item_num += 1
@@ -174,24 +186,24 @@ def runSwagbucks(driver, run_Alu):
         search_term = None
         try:
             # accept reward
-            driver.find_element_by_xpath("//*[@id='tblAwardBannerAA']/div[2]/div/div[1]/form/input[2]")
+            driver.find_element(By.XPATH, "//*[@id='tblAwardBannerAA']/div[2]/div/div[1]/form/input[2]")
             num += 1
             showMessage("Redeem Swagbucks", f'Total searches: {searches} \n' f'redemptions: {num} \n')
         # if no reward, continue searching
         except NoSuchElementException:
             time.sleep(1)
             try:
-                driver.find_element_by_id("sbLogoLink").click()
+                driver.find_element(By.ID, "sbLogoLink").click()
             # light-box pop-up in the way
             except ElementClickInterceptedException:
                 try: 
-                    driver.find_element_by_id("lightboxExit").click()
+                    driver.find_element(By.ID, "lightboxExit").click()
                 except NoSuchElementException:
                     try: 
-                        driver.find_element_by_id("daily-goal-celebration__exitCta--2VEiu").click()
+                        driver.find_element(By.ID, "daily-goal-celebration__exitCta--2VEiu").click()
                     except ElementNotInteractableException:
                         exception = "caught"
-                driver.find_element_by_id("sbLogoLink").click()
+                driver.find_element(By.ID, "sbLogoLink").click()
             time.sleep(1)
             searches += 1
             while search_term1 is None:
@@ -199,8 +211,8 @@ def runSwagbucks(driver, run_Alu):
             while search_term2 is None:
                 search_term2 = RandomWords().get_random_word()
             search_term = search_term1 + " " + search_term2
-            driver.find_element_by_id("sbGlobalNavSearchInputWeb").send_keys(search_term)
-            driver.find_element_by_id("sbGlobalNavSearchInputWeb").send_keys(Keys.ENTER)
+            driver.find_element(By.ID, "sbGlobalNavSearchInputWeb").send_keys(search_term)
+            driver.find_element(By.ID, "sbGlobalNavSearchInputWeb").send_keys(Keys.ENTER)
             time.sleep(random.choice(delay))
         except NoSuchWindowException:
             num = 3

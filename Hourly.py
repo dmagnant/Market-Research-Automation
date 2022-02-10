@@ -18,7 +18,8 @@ def clearChromeWindows(directory):
 def timeOfNextRun(faucet_complete):
         hour = faucet_complete.hour
         hourfromcomplete = hour + 1 if hour <= 22 else 0
-        return faucet_complete.replace(hour=hourfromcomplete)
+        minutefromcomplete = faucet_complete.minute if hour > 0 else 0
+        return faucet_complete.replace(minute=minutefromcomplete, hour=hourfromcomplete)
 
 time9am = datetime.now().time().replace(hour=9, minute=0, second=0, microsecond=0)
 time8pm = datetime.now().time().replace(hour=20, minute=0, second=0, microsecond=0)
@@ -26,14 +27,14 @@ time11pm = datetime.now().time().replace(hour=23, minute=0, second=0, microsecon
 
 directory = setDirectory()
 
-brave = braveBrowserAsUser(directory)
-with pyautogui.hold('ctrl'):
-    pyautogui.press('t')
-brave.switch_to.window(brave.window_handles[0])
-while len(brave.window_handles) > 1:
-    brave.close()
-    brave.switch_to.window(brave.window_handles[0])
-brave.minimize_window()
+# brave = braveBrowserAsUser(directory)
+# with pyautogui.hold('ctrl'):
+#     pyautogui.press('t')
+# brave.switch_to.window(brave.window_handles[0])
+# while len(brave.window_handles) > 1:
+#     brave.close()
+#     brave.switch_to.window(brave.window_handles[0])
+# brave.minimize_window()
 
 driver = clearChromeWindows(directory)
 time.sleep(3)
@@ -53,6 +54,6 @@ while True:
         runPresearch(driver)
         driver.quit()
         print('next run at ', nextRun)
-    else:
-        brave.refresh()
-    time.sleep(20)
+    # else:
+    #     brave.refresh()
+    time.sleep(600)
