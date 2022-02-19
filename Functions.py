@@ -54,6 +54,7 @@ def chromeDriverAsUser(directory):
     options = webdriver.ChromeOptions()
     options.add_argument(r"user-data-dir=C:\Users\dmagn\AppData\Local\Google\Chrome\User Data")
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    options.add_experimental_option("detach", True)
     return webdriver.Chrome(executable_path=chromedriver, options=options)
 
 def chromeDriverBlank(directory):

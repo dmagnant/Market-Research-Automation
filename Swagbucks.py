@@ -125,15 +125,12 @@ def runSwagbucks(driver, run_Alu):
         except NoSuchElementException:
             try:
                 # if not visible, click to show To Do List
-                driver.find_element(By.XPATH, "/html/body/div[2]/div[1]/header/nav/div[3]/button/span/span[1]").click()
-                driver.find_element(By.XPATH, '/html/body/div[2]/div[1]/header/nav/div[3]/button/span/span[2]').click()
-                driver.find_element(By.XPATH, '/html/body/div[2]/div[1]/header/nav/div[3]/button/span/span[3]').click()
-            except NoSuchElementException:
+                driver.find_element(By.XPATH, "/html/body/div[2]/div[1]/header/nav/div[3]/button").click()
+            except (NoSuchElementException, ElementClickInterceptedException):
                 exception = "caught"
         time.sleep(1)
         # get title of List Item
         list_item = driver.find_element(By.XPATH, "/html/body/div[2]/div[1]/header/nav/div[3]/div/div/div/div[2]/div/section[1]/div/ul/li[" + str(list_item_num) + "]/a")
-        print(list_item.text)
         if list_item.text == "Add A Magic Receipts Offer":
             list_item.click()
             time.sleep(2)
