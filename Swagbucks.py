@@ -146,7 +146,7 @@ def runSwagbucks(driver, run_Alu):
             time.sleep(6)
             window_num_after = len(driver.window_handles)
             if window_num_before == window_num_after:
-                driver.back()
+                driver.get('https://www.swagbucks.com/')
             else:
                 driver.switch_to.window(driver.window_handles[len(driver.window_handles)-1])
                 driver.close

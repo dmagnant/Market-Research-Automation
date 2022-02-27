@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException
 from pykeepass import PyKeePass
@@ -50,24 +51,24 @@ def setDirectory():
     return os.environ.get('StorageDirectory')
 
 def chromeDriverAsUser(directory):
-    chromedriver = directory + r"\Projects\Coding\webdrivers\chromedriver.exe"
+    chromedriver = Service(directory + r"\Projects\Coding\webdrivers\chromedriver.exe")
     options = webdriver.ChromeOptions()
     options.add_argument(r"user-data-dir=C:\Users\dmagn\AppData\Local\Google\Chrome\User Data")
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     options.add_experimental_option("detach", True)
-    return webdriver.Chrome(executable_path=chromedriver, options=options)
+    return webdriver.Chrome(service=chromedriver, options=options)
 
 def chromeDriverBlank(directory):
     chromedriver = directory + r"\Projects\Coding\webdrivers\chromedriver.exe"
     return webdriver.Chrome(executable_path=chromedriver)
 
 def braveBrowserAsUser(directory):
-    chromedriver = directory + r"\Projects\Coding\webdrivers\chromedriver.exe"
+    bravedriver = directory + r"\Projects\Coding\webdrivers\chromedriver.exe"
     options = webdriver.ChromeOptions()
     options.add_argument(r"user-data-dir=C:\Users\dmagn\AppData\Local\BraveSoftware\Brave-Browser\User Data1")
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     options.binary_location = "C:\Program Files\BraveSoftware\Brave-Browser\Application\chrome.exe"
-    return webdriver.Chrome(executable_path=chromedriver, options=options)
+    return webdriver.Chrome(executable_path=bravedriver, options=options)
 
 def getUsername(directory, name):
     keepass_file = directory + r"\Other\KeePass.kdbx"

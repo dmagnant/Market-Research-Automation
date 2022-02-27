@@ -6,10 +6,12 @@ import os
 from Functions import getUsername, getPassword
 
 def runBing(directory, driver):
-    driver.execute_script("window.open('https://account.microsoft.com/rewards/');")
-    bing_window = driver.window_handles[1]
+    driver.get('https://account.microsoft.com/rewards/')
+    driver.implicitly_wait(3)
+    bing_window = driver.window_handles[0]
     driver.switch_to.window(bing_window)
     driver.maximize_window()
+    time.sleep(1)
     # login
     try:
         # click Sign in
@@ -34,7 +36,8 @@ def runBing(directory, driver):
         exception = "already logged in"
 
     # gather "points" links
-    points_links = driver.find_elements_by_css_selector("mee-rewards-daily-set-item-content")
+    # points_links = driver.find_elements(By.CSS_SELECTOR, "mee-rewards-daily-set-item-content")
+    points_links = driver.find_elements(By.CSS_SELECTOR, "div.actionLink.x-hidden-vp1")
 
     # click on first link
     points_links[0].click()

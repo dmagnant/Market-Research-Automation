@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from Functions import setDirectory, chromeDriverAsUser, closeExpressVPN, startExpressVPN, disablePiHole, enablePiHole, showMessage
 from Cointiply import runCointiply
 from Presearch_MR import runPresearch
@@ -10,7 +11,7 @@ from AmazonGC import confirmAmazonGCBalance
 
 directory = setDirectory()
 closeExpressVPN()
-driver1 = webdriver.Edge(executable_path=(directory + r"\Projects\Coding\webdrivers\msedgedriver.exe"))
+driver1 = webdriver.Edge(service = Service(directory + r"\Projects\Coding\webdrivers\msedgedriver.exe"))
 # disablePiHole(directory, driver1)
 runBing(directory, driver1)
 driver1.minimize_window()
