@@ -9,7 +9,7 @@ from datetime import datetime
 # from matplotlib import pyplot as plt
 from Functions import getUsername, getPassword, showMessage
 
-def runCointiply(directory, driver, run_faucet=True):
+def runCointiply(directory, driver, runFaucet=True):
     # load webpage 
     driver.implicitly_wait(2)
     driver.get("https://cointiply.com/login")
@@ -32,9 +32,9 @@ def runCointiply(directory, driver, run_faucet=True):
     Cointiply.moveTo(10, 10)
     Cointiply.resizeTo(100, 100)
     Cointiply.maximize()
-    
-    if run_faucet:
-        # Roll faucet
+
+    if runFaucet:
+        # Roll Faucet
         driver.get("https://cointiply.com/home?intent=faucet")
         time.sleep(2)
         # click Roll & Win
@@ -46,8 +46,6 @@ def runCointiply(directory, driver, run_faucet=True):
             time.sleep(2)
         except NoSuchElementException:
             exception = "gotta wait"
-    # capture time when faucet is completed (used for Hourly Script)
-    faucet_complete = datetime.now().time()
 
     # PTC Ads
     driver.get("https://cointiply.com/ptc")
@@ -120,6 +118,8 @@ def runCointiply(directory, driver, run_faucet=True):
                     # skip ad
                     print('skipped ad')
                     driver.find_element(By.ID, "//*[@id='app']/div[4]/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/button").click()
+                    driver.refresh()
+                    time.sleep(2)
                     continue
                 except NoSuchElementException:
                     continue
@@ -187,4 +187,15 @@ def runCointiply(directory, driver, run_faucet=True):
     #         spins_remaining = driver.find_element(By.XPATH, "/html/body/div/div/div[4]/div/div[1]/div[1]/div[2]/div[1]").text.replace("\n", " ").strip(" Spins Remaining")
     #     except NoSuchElementException:
     #         exception = "pop-up"
-    return faucet_complete
+
+    minsLeftForFaucet = 60
+
+    if runFaucet:
+        # Get Faucet Wait Time
+        driver.get("https://cointiply.com/home?intent=faucet")
+        time.sleep(2)
+        try: 
+            minsLeftForFaucet = int(driver.find_element(By.XPATH, "/html/body/div/div/div[4]/div/div/div[2]/div[2]/div[1]/div[1]/div/div[1]/ul/li[3]/p[1]").text) + 1
+        except NoSuchElementException:
+            exception = "faucet wasn't run"
+    return minsLeftForFaucet

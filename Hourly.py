@@ -15,15 +15,17 @@ def clearChromeWindows(directory):
         driver = chromeDriverAsUser(directory)
     return driver
 
-def timeOfNextRun(faucet_complete):
-        hour = faucet_complete.hour
-        hourfromcomplete = hour + 1 if hour <= 22 else 0
-        minutefromcomplete = faucet_complete.minute if hour > 0 else 0
-        return faucet_complete.replace(minute=minutefromcomplete, hour=hourfromcomplete)
-
-time9am = datetime.now().time().replace(hour=9, minute=0, second=0, microsecond=0)
-time8pm = datetime.now().time().replace(hour=20, minute=0, second=0, microsecond=0)
-time11pm = datetime.now().time().replace(hour=23, minute=0, second=0, microsecond=0)
+def timeOfNextRun(minsLeftForFaucet):
+    now = datetime.now().time().replace(second=0, microsecond=0)
+    nextRunMinute = now.minute + minsLeftForFaucet
+    nextRunHour = now.hour
+    # adjust for minutes going over 60
+    if (nextRunMinute > 60):
+        nextRunMinute = abs(nextRunMinute - 60)
+        nextRunHour += 1 if nextRunHour < 23 else 0
+    nextRun = now.replace(hour=nextRunHour, minute=nextRunMinute)
+    print('next run at ', str(nextRun.hour) + ":" + "{:02d}".format(nextRun.minute))
+    return nextRun
 
 directory = setDirectory()
 
@@ -38,22 +40,21 @@ directory = setDirectory()
 
 driver = clearChromeWindows(directory)
 time.sleep(3)
-faucet_complete = runCointiply(directory, driver, True)
+minsLeftForFaucet = runCointiply(directory, driver, True)
 driver.quit()
-nextRun = timeOfNextRun(faucet_complete)
-print('next run at ', nextRun)
+# calculate next run time
+nextRun = timeOfNextRun(minsLeftForFaucet)
 while True:
     now = datetime.now().time()
-    if now > nextRun and now < time11pm:
+    if now > nextRun:
         driver = clearChromeWindows(directory)
-        run_faucet = True if now > time9am and now < time8pm else False
-        # run_faucet = False          # activate this line to run passively indefinitely
+        runFaucet = True if now.hour >= 9 and now.hour <= 20 else False
+        # runFaucet = False          # activate this line to run passively indefinitely
         runPresearch(driver)
-        faucet_complete = runCointiply(directory, driver, run_faucet)
-        nextRun = timeOfNextRun(faucet_complete)
+        minsLeftForFaucet = runCointiply(directory, driver, runFaucet)
+        nextRun = timeOfNextRun(minsLeftForFaucet)
         runPresearch(driver)
         driver.quit()
-        print('next run at ', nextRun)
     # else:
     #     brave.refresh()
-    time.sleep(600)
+    time.sleep(minsLeftForFaucet * 60)
