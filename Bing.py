@@ -6,7 +6,7 @@ import os
 from Functions import getUsername, getPassword
 
 def runBing(directory, driver):
-    driver.get('https://account.microsoft.com/rewards/')
+    driver.get('https://rewards.microsoft.com/')
     driver.implicitly_wait(3)
     bing_window = driver.window_handles[0]
     driver.switch_to.window(bing_window)
