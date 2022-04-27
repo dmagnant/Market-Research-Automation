@@ -13,7 +13,6 @@ def runCointiply(directory, driver, runFaucet=True):
     # load webpage 
     driver.implicitly_wait(2)
     driver.get("https://cointiply.com/login")
-    driver.maximize_window()
 
     #Login
     try:

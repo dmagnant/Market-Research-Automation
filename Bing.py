@@ -26,7 +26,7 @@ def runBing(directory, driver):
         driver.find_element(By.ID, "i0118").send_keys(getPassword(directory, 'Bing Rewards'))
         time.sleep(1)
         # click Sign in
-        driver.find_element(By.XPATH, "/html/body/div/form[1]/div/div/div[2]/div[1]/div/div/div/div/div/div[3]/div/div[2]/div/div[3]/div[2]/div/div/div/div/input").click()
+        driver.find_element(By.ID, "idSIButton9").click()
         time.sleep(1)
         # click to stay signed in
         driver.find_element(By.XPATH, "/html/body/div/form/div/div/div[2]/div[1]/div/div/div/div/div/div[3]/div/div[2]/div/div[3]/div[2]/div/div/div[2]/input").click()

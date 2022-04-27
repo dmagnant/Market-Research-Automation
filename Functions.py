@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException
 from pykeepass import PyKeePass
 import os
+from datetime import datetime
 import psutil
 import time
 import ctypes
@@ -54,6 +55,7 @@ def chromeDriverAsUser(directory):
     chromedriver = Service(directory + r"\Projects\Coding\webdrivers\chromedriver.exe")
     options = webdriver.ChromeOptions()
     options.add_argument(r"user-data-dir=C:\Users\dmagn\AppData\Local\Google\Chrome\User Data")
+    options.add_argument("start-maximized")
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     options.add_experimental_option("detach", True)
     return webdriver.Chrome(service=chromedriver, options=options)
@@ -129,3 +131,21 @@ def openGnuCashBook(directory, type, readOnly, openIfLocked):
         showMessage("Gnucash file open", 'Close Gnucash file then click OK \n')
         mybook = piecash.open_book(book, readonly=readOnly, open_if_lock=openIfLocked)
     return mybook
+
+def timeOfNextRun(minsLeftForFaucet):
+    now = datetime.now().time().replace(second=0, microsecond=0)
+    if now.hour == 23:
+        nextRunMinute = 0
+        nextRunHour = 0
+    else:
+        nextRunMinute = now.minute + minsLeftForFaucet
+        nextRunHour = now.hour
+        # adjust for minutes going over 60
+        if (nextRunMinute > 60):
+            nextRunMinute = abs(nextRunMinute - 60)
+            nextRunHour += 1 if nextRunHour < 23 else 0
+    if nextRunMinute < 0 or nextRunMinute > 59:
+        showMessage('Next Run Minute is off', 'Nextrunminute = ' + nextRunMinute)
+    nextRun = now.replace(hour=nextRunHour, minute=nextRunMinute)
+    print('next run at ', str(nextRun.hour) + ":" + "{:02d}".format(nextRun.minute))
+    return nextRun

@@ -16,7 +16,6 @@ def runTellwut(driver):
         driver.find_element(By.XPATH, "//*[@id='signinForm']/div[5]/div/button").click()
     except NoSuchElementException:
         exception = "already logged in"
-    driver.maximize_window()
     time.sleep(1)
     # Click Home
     driver.find_element(By.XPATH, "//*[@id='header']/nav[1]/div/ul/li[1]/a").click()

@@ -5,7 +5,7 @@ import time
 import pyautogui
 from Cointiply import runCointiply
 from Presearch_MR import runPresearch
-from Functions import setDirectory, chromeDriverAsUser, braveBrowserAsUser, showMessage
+from Functions import setDirectory, chromeDriverAsUser, braveBrowserAsUser, showMessage, timeOfNextRun
 
 def clearChromeWindows(directory):
     try:
@@ -14,24 +14,6 @@ def clearChromeWindows(directory):
         os.system("taskkill /im chrome.exe /f")
         driver = chromeDriverAsUser(directory)
     return driver
-
-def timeOfNextRun(minsLeftForFaucet):
-    now = datetime.now().time().replace(second=0, microsecond=0)
-    if now.hour == 23:
-        nextRunMinute = 0
-        nextRunHour = 0
-    else:
-        nextRunMinute = now.minute + minsLeftForFaucet
-        nextRunHour = now.hour
-        # adjust for minutes going over 60
-        if (nextRunMinute > 60):
-            nextRunMinute = abs(nextRunMinute - 60)
-            nextRunHour += 1 if nextRunHour < 23 else 0
-    if nextRunMinute < 0 or nextRunMinute > 59:
-        showMessage('Next Run Minute is off', 'Nextrunminute = ' + nextRunMinute)
-    nextRun = now.replace(hour=nextRunHour, minute=nextRunMinute)
-    print('next run at ', str(nextRun.hour) + ":" + "{:02d}".format(nextRun.minute))
-    return nextRun
 
 directory = setDirectory()
 
@@ -66,3 +48,4 @@ while True:
     # else:
     #     brave.refresh()
     time.sleep(minsLeftForFaucet * 60)
+    
