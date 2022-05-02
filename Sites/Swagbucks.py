@@ -208,7 +208,7 @@ def runSwagbucks(driver, run_Alu, location="home"):
                 while search_term2 is None:
                     search_term2 = RandomWords().get_random_word()
                 search_term = search_term1 + " " + search_term2
-                driver.find_element(By.ID, "sbGlobalNavSearchInputWeb").send_keys(search_term + Keys.Enter)
+                driver.find_element(By.ID, "sbGlobalNavSearchInputWeb").send_keys(search_term + Keys.ENTER)
                 time.sleep(random.choice(delay))
             except NoSuchWindowException:
                 num = 3

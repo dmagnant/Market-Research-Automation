@@ -3,11 +3,11 @@ from selenium.webdriver.chrome.service import Service
 import time
 
 from Functions import setDirectory, chromeDriverAsUser, closeExpressVPN, timeOfNextRun
-from Cointiply import runCointiply
-from Presearch_MR import runPresearch
-from Swagbucks import runSwagbucks
-from Bing import runBing
-from Tellwut import runTellwut
+from Sites.Cointiply import runCointiply
+from Sites.Presearch_MR import runPresearch
+from Sites.Swagbucks import runSwagbucks
+from Sites.Bing import runBing
+from Sites.Tellwut import runTellwut
 
 directory = setDirectory()
 closeExpressVPN()
@@ -17,7 +17,7 @@ runBing(directory, driver1)
 driver1.quit()
 driver = chromeDriverAsUser(directory)
 runTellwut(driver)
-runSwagbucks(driver, False, "office")
+runSwagbucks(driver, True, "office")
 driver.quit()
 while True:
     driver = chromeDriverAsUser(directory)

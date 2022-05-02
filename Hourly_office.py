@@ -1,6 +1,6 @@
 import time
-from Cointiply import runCointiply
-from Presearch_MR import runPresearch
+from Sites.Cointiply import runCointiply
+from Sites.Presearch_MR import runPresearch
 from Functions import setDirectory, chromeDriverAsUser, timeOfNextRun
 
 def runHourlyOffice(directory=setDirectory()):
