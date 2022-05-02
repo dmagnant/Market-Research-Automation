@@ -3,8 +3,8 @@ import os
 from datetime import datetime
 import time
 import pyautogui
-from Sites.Cointiply import runCointiply
-from Sites.Presearch_MR import runPresearch
+from Cointiply import runCointiply
+from Presearch_MR import runPresearch
 from Functions import setDirectory, chromeDriverAsUser, braveBrowserAsUser, showMessage, timeOfNextRun
 
 def clearChromeWindows(directory):

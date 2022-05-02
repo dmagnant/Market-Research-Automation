@@ -3,11 +3,11 @@ from selenium.webdriver.chrome.service import Service
 import time
 
 from Functions import setDirectory, chromeDriverAsUser, closeExpressVPN, timeOfNextRun
-from Sites.Cointiply import runCointiply
-from Sites.Presearch_MR import runPresearch
-from Sites.Swagbucks import runSwagbucks
-from Sites.Bing import runBing
-from Sites.Tellwut import runTellwut
+from Cointiply import runCointiply
+from Presearch_MR import runPresearch
+from Swagbucks import runSwagbucks
+from Bing import runBing
+from Tellwut import runTellwut
 
 directory = setDirectory()
 closeExpressVPN()
