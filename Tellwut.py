@@ -49,7 +49,6 @@ def runTellwut(driver):
         driver.get("https://www.tellwut.com/")
     # Check balance and Redeem
     tellwut_balance = driver.find_element(By.XPATH, "/html/body/div/header/div/div/div/div[4]/div/div/div[2]/div[1]/div[1]").text
-    print(tellwut_balance)
     if int(tellwut_balance) >= 4000:
         driver.find_element(By.XPATH, "//*[@id='header']/nav[1]/div/ul/li[2]/a").click()
         time.sleep(1)

@@ -15,7 +15,6 @@ def runPinecone(driver):
     balance = ''
     while balance == '':
         balance = driver.find_element(By.XPATH, "//*[@id='basic-navbar-nav']/div/form/button/div").text
-    print(balance)
     if float(balance) >= 300:
         try:
             # Click Redeem
