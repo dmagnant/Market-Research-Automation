@@ -1,7 +1,7 @@
 import time
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException, ElementClickInterceptedException
-from Functions import showMessage
+from Functions import showMessage, chromeDriverAsUser
 
 def runTellwut(driver):
     # LOAD PAGE
@@ -23,6 +23,10 @@ def runTellwut(driver):
         try:
             # look for "Start Survey" button
             driver.find_element(By.XPATH, "/html/body/div/main/div[2]/div[2]/div[1]/form/div[1]/div/button").click()
+        except ElementClickInterceptedException:
+            # click randomize
+            driver.find_element(By.XPATH, "/html/body/div/main/div[2]/div[2]/div[1]/div/h1/a").click()
+            print('randomize clicked')
         except NoSuchElementException:
             try:
                 # look for submit button
@@ -47,6 +51,7 @@ def runTellwut(driver):
         time.sleep(3)
         # re-load the webpage to load new survey
         driver.get("https://www.tellwut.com/")
+        time.sleep(2)
     # Check balance and Redeem
     tellwut_balance = driver.find_element(By.XPATH, "/html/body/div/header/div/div/div/div[4]/div/div/div[2]/div[1]/div[1]").text
     if int(tellwut_balance) >= 4000:
@@ -56,3 +61,8 @@ def runTellwut(driver):
         driver.find_element(By.ID, "checkout_form_submit").click()
         driver.find_element(By.ID, "form_button").click()
         time.sleep(3)
+
+if __name__ == '__main__':
+    driver = chromeDriverAsUser()
+    runTellwut(driver)
+    

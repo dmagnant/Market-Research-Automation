@@ -1,5 +1,5 @@
 from selenium.webdriver.common.by import By
-from Functions import openGnuCashBook, showMessage
+from Functions import openGnuCashBook, showMessage, setDirectory, chromeDriverAsUser
 
 def confirmAmazonGCBalance(directory, driver):
     driver.get("https://www.amazon.com/gc/balance")
@@ -10,3 +10,8 @@ def confirmAmazonGCBalance(directory, driver):
         book.close()
     if str(amazon_balance) != balance:
         showMessage("Amazon GC Mismatch", f'Amazon balance: {balance} \n' f'Gnu Cash balance: {amazon_balance} \n')
+
+if __name__ == '__main__':
+    directory = setDirectory()
+    driver = chromeDriverAsUser(directory)
+    confirmAmazonGCBalance(directory, driver)

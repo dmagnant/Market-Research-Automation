@@ -6,7 +6,7 @@ import random
 import pyautogui
 import pygetwindow
 from random_word import RandomWords
-from Functions import closeExpressVPN, showMessage
+from Functions import closeExpressVPN, showMessage, chromeDriverAsUser
 
 def runAlusRevenge(driver, run_Alu):
     if run_Alu:
@@ -214,3 +214,7 @@ def runSwagbucks(driver, run_Alu, location="home"):
                 num = 3
             except WebDriverException:
                 num = 3
+
+if __name__ == '__main__':
+    driver = chromeDriverAsUser()
+    runSwagbucks(driver, False, location="home")

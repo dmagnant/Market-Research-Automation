@@ -1,9 +1,11 @@
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException
+from selenium.common.exceptions import NoSuchElementException
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 import time
 import pyautogui
 import os
-from Functions import getUsername, getPassword
+from Functions import getUsername, getPassword, setDirectory
 
 def runBing(directory, driver):
     driver.get('https://rewards.microsoft.com/')
@@ -80,8 +82,8 @@ def runBing(directory, driver):
 
     # capture balance
     time.sleep(3)
-    mr_balance = driver.find_element(By.XPATH, "//*[@id='userBanner']/mee-banner/div/div/div/div[2]/div[1]/mee-banner-slot-2/mee-rewards-user-status-item/mee-rewards-user-status-balance/div/div/div/div/div/p[1]/mee-rewards-counter-animation/span").text.replace(',', '')
-    if int(mr_balance) >= 5250:
+    bingBalance = driver.find_element(By.XPATH, "//*[@id='userBanner']/mee-banner/div/div/div/div[2]/div[1]/mee-banner-slot-2/mee-rewards-user-status-item/mee-rewards-user-status-balance/div/div/div/div/div/p[1]/mee-rewards-counter-animation/span").text.replace(',', '')
+    if int(bingBalance) >= 5250:
         # go to $5 Amazon gift card link
         driver.get("https://rewards.microsoft.com/redeem/000800000000")
         time.sleep(3)
@@ -97,4 +99,8 @@ def runBing(directory, driver):
             driver.find_element(By.XPATH, "//*[@id='redeem-checkout-challenge-validate']/span").click()
         except NoSuchElementException:
             exception = "caught"
-            
+
+if __name__ == '__main__':
+    directory = setDirectory()
+    driver = webdriver.Edge(service = Service(directory + r"\Projects\Coding\webdrivers\msedgedriver.exe"))
+    runBing(directory, driver)

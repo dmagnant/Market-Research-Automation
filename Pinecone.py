@@ -3,6 +3,8 @@ import ctypes
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
+from Functions import chromeDriverAsUser
+
 def runPinecone(driver):
     # Pinecone Research
     driver.get("https://members.pineconeresearch.com/#/Login")
@@ -40,3 +42,7 @@ def runPinecone(driver):
         except NoSuchElementException:
             # skip if prompted for security question
             exception = "caught"
+
+if __name__ == '__main__':
+    driver = chromeDriverAsUser()
+    runPinecone(driver)

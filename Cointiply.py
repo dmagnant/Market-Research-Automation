@@ -7,7 +7,7 @@ import pyautogui
 import pygetwindow
 from datetime import datetime
 # from matplotlib import pyplot as plt
-from Functions import getUsername, getPassword, showMessage
+from Functions import getUsername, getPassword, showMessage, setDirectory, chromeDriverAsUser
 
 def runCointiply(directory, driver, runFaucet=True):
     # load webpage 
@@ -198,3 +198,8 @@ def runCointiply(directory, driver, runFaucet=True):
         except NoSuchElementException:
             exception = "faucet wasn't run"
     return minsLeftForFaucet
+
+if __name__ == '__main__':
+    directory = setDirectory()
+    driver = chromeDriverAsUser(directory)
+    runCointiply(directory, driver, True)
