@@ -9,11 +9,8 @@ from datetime import datetime
 # from matplotlib import pyplot as plt
 from Functions import getUsername, getPassword, showMessage, setDirectory, chromeDriverAsUser
 
-def runCointiply(directory, driver, runFaucet=True):
-    # load webpage 
-    driver.implicitly_wait(2)
+def login(directory, driver):
     driver.get("https://cointiply.com/login")
-
     #Login
     try:
         # enter email
@@ -25,13 +22,13 @@ def runCointiply(directory, driver, runFaucet=True):
         driver.find_element(By.XPATH, "/html/body/div[1]/div[2]/section/div[1]/div/div[2]/div/div[3]/form/div[5]/button").click()
     except NoSuchElementException:
         exception = "already logged in"
-
     # move window to primary monitor
     Cointiply = pygetwindow.getWindowsWithTitle('Cointiply Bitcoin Rewards - Earn Free Bitcoin - Google Chrome')[0]
     Cointiply.moveTo(10, 10)
     Cointiply.resizeTo(100, 100)
     Cointiply.maximize()
 
+def runFaucet(driver, runFaucet):
     if runFaucet:
         # Roll Faucet
         driver.get("https://cointiply.com/home?intent=faucet")
@@ -46,7 +43,8 @@ def runCointiply(directory, driver, runFaucet=True):
         except NoSuchElementException:
             exception = "gotta wait"
 
-    # PTC Ads
+
+def ptcAds(directory, driver):
     driver.get("https://cointiply.com/ptc")
     time.sleep(1)
 
@@ -80,18 +78,20 @@ def runCointiply(directory, driver, runFaucet=True):
             time.sleep(1)
             # click on view highest paying add link
             driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[2]/div[1]/div/div[1]/div[3]/button").click()
+            time.sleep(1)
             # Obtain how long ad needs to be viewed for
             driver.switch_to.window(main_window)
             try:
                 # Capture "X seconds remaining" element text
                 view_length = driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/span").text
             except (NoSuchElementException, StaleElementReferenceException):
+                print('view length not found')
                 continue
 
             ## register ad viewing
             window_after = driver.window_handles[1]
             driver.switch_to.window(window_after)
-            # time.sleep(1)
+            time.sleep(1)
             driver.switch_to.window(main_window)
             current_pos = pyautogui.position()
             # click on screen, move back to current_pos
@@ -112,6 +112,7 @@ def runCointiply(directory, driver, runFaucet=True):
             # obtain which image needs to be selected
             try:
                 selection = driver.find_element(By.XPATH, "/html/body/div[2]/div[1]/div[2]/span[1]").text.replace("Select: ", "")
+                print(selection)
             except NoSuchElementException:
                 try:
                     # skip ad
@@ -154,7 +155,7 @@ def runCointiply(directory, driver, runFaucet=True):
                 x_coord = x_coord + int(top_left[0])
                 # plt.show()
             x_coord_avg = x_coord / 2
-            # time.sleep(1)
+            time.sleep(1)
             img_num = 0
             if x_coord_avg < 107:
                 img_num = 1
@@ -166,29 +167,15 @@ def runCointiply(directory, driver, runFaucet=True):
                 img_num = 4
             elif x_coord_avg > 400:
                 img_num = 5
+            print('clicked: ' + selection)
             driver.find_element(By.XPATH, "/html/body/div[2]/div[1]/div[2]/div[1]/img[" + str(img_num) + "]").click()
-            # time.sleep(1)
+            time.sleep(1)
         else:
             still_ads = False
 
-    # # # PROMO - Candy Chaos
-    # # # navigate to address
-    # driver.get("https://cointiply.com/itemPromos?utm_source=desktop")
-    # time.sleep(1)
-    # # get number of spins
-    # spins_remaining = driver.find_element(By.XPATH, "/html/body/div/div/div[4]/div/div[1]/div[1]/div[2]/div[1]").text
-    # while (int(spins_remaining) > 0):
-    #     try:
-    #         # click spin
-    #         driver.find_element(By.XPATH, "/html/body/div/div/div[4]/div/div[1]/div[3]/div[3]").click()
-    #         # wait 5 seconds
-    #         time.sleep(5)
-    #         spins_remaining = driver.find_element(By.XPATH, "/html/body/div/div/div[4]/div/div[1]/div[1]/div[2]/div[1]").text.replace("\n", " ").strip(" Spins Remaining")
-    #     except NoSuchElementException:
-    #         exception = "pop-up"
 
+def nextRun(driver):
     minsLeftForFaucet = 60
-
     if runFaucet:
         # Get Faucet Wait Time
         driver.get("https://cointiply.com/home?intent=faucet")
@@ -199,7 +186,16 @@ def runCointiply(directory, driver, runFaucet=True):
             exception = "faucet wasn't run"
     return minsLeftForFaucet
 
+
+def runCointiply(directory, driver, faucetRun=True):
+    login(directory, driver)    
+    runFaucet(driver, faucetRun)
+    ptcAds(directory, driver)
+    return nextRun(driver)
+
+
 if __name__ == '__main__':
     directory = setDirectory()
     driver = chromeDriverAsUser(directory)
+    driver.implicitly_wait(2)
     runCointiply(directory, driver, True)

@@ -7,11 +7,9 @@ import pyautogui
 import os
 from Functions import getUsername, getPassword, setDirectory
 
-def runBing(directory, driver):
-    driver.get('https://rewards.microsoft.com/')
-    driver.implicitly_wait(3)
-    bing_window = driver.window_handles[0]
-    driver.switch_to.window(bing_window)
+
+def login(directory, driver, bingWindow):
+    driver.switch_to.window(bingWindow)
     driver.maximize_window()
     time.sleep(1)
     # login
@@ -37,21 +35,23 @@ def runBing(directory, driver):
     except NoSuchElementException:
         exception = "already logged in"
 
+
+def performRewardActivities(driver, bingWindow):
     # gather "points" links
-    # points_links = driver.find_elements(By.CSS_SELECTOR, "mee-rewards-daily-set-item-content")
-    points_links = driver.find_elements(By.CSS_SELECTOR, "div.actionLink.x-hidden-vp1")
+    # pointsLinks = driver.find_elements(By.CSS_SELECTOR, "mee-rewards-daily-set-item-content")
+    pointsLinks = driver.find_elements(By.CSS_SELECTOR, "div.actionLink.x-hidden-vp1")
 
     # click on first link
-    points_links[0].click()
+    pointsLinks[0].click()
     time.sleep(1)
     # switch to last window
     driver.switch_to.window(driver.window_handles[len(driver.window_handles)-1])
     time.sleep(1)
     driver.close()
-    driver.switch_to.window(bing_window)
+    driver.switch_to.window(bingWindow)
 
     # click on Daily Poll
-    points_links[2].click()
+    pointsLinks[2].click()
     time.sleep(1)
     # switch to last window
     driver.switch_to.window(driver.window_handles[len(driver.window_handles)-1])
@@ -59,9 +59,9 @@ def runBing(directory, driver):
         if driver.find_element(By.XPATH, '/html/body/div[2]/div[2]/span/a'):
             time.sleep(1)
             driver.close()
-            driver.switch_to.window(bing_window)
+            driver.switch_to.window(bingWindow)
             time.sleep(1)
-            points_links[2].click()
+            pointsLinks[2].click()
             # switch to last window
             driver.switch_to.window(driver.window_handles[len(driver.window_handles)-1])
     except NoSuchElementException:
@@ -78,8 +78,9 @@ def runBing(directory, driver):
     # click False
     pyautogui.leftClick(425, 950)
     driver.close()
-    driver.switch_to.window(bing_window)
+    driver.switch_to.window(bingWindow)
 
+def claimRewards(driver):
     # capture balance
     time.sleep(3)
     bingBalance = driver.find_element(By.XPATH, "//*[@id='userBanner']/mee-banner/div/div/div/div[2]/div[1]/mee-banner-slot-2/mee-rewards-user-status-item/mee-rewards-user-status-balance/div/div/div/div/div/p[1]/mee-rewards-counter-animation/span").text.replace(',', '')
@@ -100,7 +101,17 @@ def runBing(directory, driver):
         except NoSuchElementException:
             exception = "caught"
 
+
+def runBing(directory, driver):
+    driver.get('https://rewards.microsoft.com/')
+    bingWindow = driver.window_handles[0]
+    login(directory, driver, bingWindow)
+    performRewardActivities(driver, bingWindow)
+    claimRewards(driver)
+    
+
 if __name__ == '__main__':
     directory = setDirectory()
     driver = webdriver.Edge(service = Service(directory + r"\Projects\Coding\webdrivers\msedgedriver.exe"))
+    driver.implicitly_wait(3)
     runBing(directory, driver)

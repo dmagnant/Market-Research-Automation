@@ -27,6 +27,7 @@ directory = setDirectory()
 # brave.minimize_window()
 
 driver = clearChromeWindows(directory)
+driver.implicitly_wait(3)
 time.sleep(3)
 minsLeftForFaucet = runCointiply(directory, driver, True)
 driver.quit()
