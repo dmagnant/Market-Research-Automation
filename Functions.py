@@ -30,10 +30,9 @@ def checkIfProcessRunning(processName):
 
 def startExpressVPN():
     os.startfile(r'C:\Program Files (x86)\ExpressVPN\expressvpn-ui\ExpressVPN.exe')
-    time.sleep(4)
+    time.sleep(5)
     EVPN = pygetwindow.getWindowsWithTitle('ExpressVPN')[0]
-    EVPN.close()
-    # stays open in system tray
+    EVPN.close()  # stays open in system tray
 
 def closeExpressVPN():
     if checkIfProcessRunning('ExpressVPN.exe'):

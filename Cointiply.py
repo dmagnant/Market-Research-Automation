@@ -35,7 +35,7 @@ def runFaucet(driver, runFaucet):
         time.sleep(2)
         # click Roll & Win
         try:
-            driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[2]/div[2]/div[1]/div[1]/div/div[1]/div/button").click()
+            driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[2]/div[2]/div[2]/div[1]/div/div[1]/div/button").click()
             showMessage("CAPTCHA", 'Verify captcha, then click OK')
             # click Submit Captcha & Roll
             driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[2]/div[1]/div[1]/div[1]/div/div/div/button").click()
@@ -103,7 +103,8 @@ def ptcAds(directory, driver):
                 time.sleep(view_length)
             except ValueError:
                 print('error')
-                driver.close()
+                driver.switch_to.window(main_window)
+                driver.refresh()
                 continue
 
             driver.switch_to.window(main_window)
@@ -112,7 +113,6 @@ def ptcAds(directory, driver):
             # obtain which image needs to be selected
             try:
                 selection = driver.find_element(By.XPATH, "/html/body/div[2]/div[1]/div[2]/span[1]").text.replace("Select: ", "")
-                print(selection)
             except NoSuchElementException:
                 try:
                     # skip ad
@@ -167,7 +167,7 @@ def ptcAds(directory, driver):
                 img_num = 4
             elif x_coord_avg > 400:
                 img_num = 5
-            print('clicked: ' + selection)
+            # print('clicked: ' + selection)
             driver.find_element(By.XPATH, "/html/body/div[2]/div[1]/div[2]/div[1]/img[" + str(img_num) + "]").click()
             time.sleep(1)
         else:
@@ -181,9 +181,13 @@ def nextRun(driver):
         driver.get("https://cointiply.com/home?intent=faucet")
         time.sleep(2)
         try: 
-            minsLeftForFaucet = int(driver.find_element(By.XPATH, "/html/body/div/div/div[4]/div/div/div[2]/div[2]/div[1]/div[1]/div/div[1]/ul/li[3]/p[1]").text) + 1
+            minsLeftForFaucet = int(driver.find_element(By.XPATH, "/html/body/div/div/div[4]/div/div/div[2]/div[2]/div[2]/div[1]/div/div[1]/ul/li[3]/p[1]").text) + 1
         except NoSuchElementException:
-            exception = "faucet wasn't run"
+            try:
+                driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[2]/div[2]/div[2]/div[1]/div/div[1]/div/button")
+                exception = "faucet wasn't run"
+            except NoSuchElementException:
+                print('time left not accurately captured, check web element')
     return minsLeftForFaucet
 
 

@@ -9,6 +9,7 @@ from Functions import setDirectory, chromeDriverAsUser, braveBrowserAsUser, show
 
 def clearChromeWindows(directory):
     try:
+    
         driver = chromeDriverAsUser(directory)
     except InvalidArgumentException:
         os.system("taskkill /im chrome.exe /f")
