@@ -39,7 +39,7 @@ def runFaucet(driver, runFaucet):
             showMessage("CAPTCHA", 'Verify captcha, then click OK')
             # click Submit Captcha & Roll
             driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[2]/div[1]/div[1]/div[1]/div/div/div/button").click()
-            time.sleep(2)
+            time.sleep(3)
         except NoSuchElementException:
             exception = "gotta wait"
 
