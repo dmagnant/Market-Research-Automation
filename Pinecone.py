@@ -1,9 +1,11 @@
-import time
 import ctypes
-from selenium.webdriver.common.by import By
+import time
+
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
 
 from Functions import chromeDriverAsUser
+
 
 def runPinecone(driver):
     # Pinecone Research

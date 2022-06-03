@@ -1,17 +1,20 @@
+import ctypes
+import os
+import time
+from datetime import datetime
+
+import piecash
+import psutil
+import pyautogui
+import pygetwindow
+from piecash import GnucashException
+from pykeepass import PyKeePass
 from selenium import webdriver
+from selenium.common.exceptions import (ElementNotInteractableException,
+                                        NoSuchElementException)
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException
-from pykeepass import PyKeePass
-import os
-from datetime import datetime
-import psutil
-import time
-import ctypes
-import pygetwindow
-import pyautogui
-import piecash
-from piecash import GnucashException
+
 
 def showMessage(header, body): 
     MessageBox = ctypes.windll.user32.MessageBoxW

@@ -1,12 +1,14 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 import time
 
-from Functions import setDirectory, chromeDriverAsUser, closeExpressVPN, timeOfNextRun
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+
+from Bing import runBing
 from Cointiply import runCointiply
+from Functions import (chromeDriverAsUser, closeExpressVPN, setDirectory,
+                       timeOfNextRun)
 from Presearch_MR import runPresearch
 from Swagbucks import runSwagbucks
-from Bing import runBing
 from Tellwut import runTellwut
 
 directory = setDirectory()

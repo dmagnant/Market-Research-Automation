@@ -1,6 +1,9 @@
 import time
+
 from random_word import RandomWords
+
 from Functions import chromeDriverAsUser
+
 
 def runPresearch(driver):
     search_prefix = "https://testnet-engine.presearch.org/search?q="

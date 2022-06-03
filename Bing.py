@@ -1,11 +1,13 @@
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-import time
-import pyautogui
 import os
-from Functions import getUsername, getPassword, setDirectory
+import time
+
+import pyautogui
+from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+
+from Functions import getPassword, getUsername, setDirectory
 
 
 def login(directory, driver, bingWindow):

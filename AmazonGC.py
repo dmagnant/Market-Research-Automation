@@ -1,5 +1,8 @@
 from selenium.webdriver.common.by import By
-from Functions import openGnuCashBook, showMessage, setDirectory, chromeDriverAsUser
+
+from Functions import (chromeDriverAsUser, openGnuCashBook, setDirectory,
+                       showMessage)
+
 
 def confirmAmazonGCBalance(directory, driver):
     driver.get("https://www.amazon.com/gc/balance")

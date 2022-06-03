@@ -1,13 +1,15 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from Functions import setDirectory, chromeDriverAsUser, closeExpressVPN, startExpressVPN, showMessage
+
+from AmazonGC import confirmAmazonGCBalance
+from Bing import runBing
 from Cointiply import runCointiply
+from Functions import (chromeDriverAsUser, closeExpressVPN, setDirectory,
+                       showMessage, startExpressVPN)
+from Pinecone import runPinecone
 from Presearch_MR import runPresearch
 from Swagbucks import runSwagbucks
-from Bing import runBing
 from Tellwut import runTellwut
-from Pinecone import runPinecone
-from AmazonGC import confirmAmazonGCBalance
 
 directory = setDirectory()
 closeExpressVPN()

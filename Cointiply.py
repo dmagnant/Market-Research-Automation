@@ -1,13 +1,21 @@
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException, ElementClickInterceptedException, StaleElementReferenceException
 import time
+from datetime import datetime
+
 import cv2
 import numpy as np
 import pyautogui
 import pygetwindow
-from datetime import datetime
+from selenium.common.exceptions import (ElementClickInterceptedException,
+                                        ElementNotInteractableException,
+                                        NoSuchElementException,
+                                        StaleElementReferenceException,
+                                        WebDriverException)
+from selenium.webdriver.common.by import By
+
 # from matplotlib import pyplot as plt
-from Functions import getUsername, getPassword, showMessage, setDirectory, chromeDriverAsUser
+from Functions import (chromeDriverAsUser, getPassword, getUsername,
+                       setDirectory, showMessage)
+
 
 def login(directory, driver):
     driver.get("https://cointiply.com/login")
@@ -40,7 +48,7 @@ def runFaucet(driver, runFaucet):
             # click Submit Captcha & Roll
             driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[2]/div[1]/div[1]/div[1]/div/div/div/button").click()
             time.sleep(3)
-        except NoSuchElementException:
+        except (NoSuchElementException, WebDriverException):
             exception = "gotta wait"
 
 

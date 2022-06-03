@@ -1,11 +1,15 @@
-from selenium.common.exceptions import InvalidArgumentException
 import os
-from datetime import datetime
 import time
+from datetime import datetime
+
 import pyautogui
+from selenium.common.exceptions import InvalidArgumentException
+
 from Cointiply import runCointiply
+from Functions import (braveBrowserAsUser, chromeDriverAsUser, setDirectory,
+                       showMessage, timeOfNextRun)
 from Presearch_MR import runPresearch
-from Functions import setDirectory, chromeDriverAsUser, braveBrowserAsUser, showMessage, timeOfNextRun
+
 
 def clearChromeWindows(directory):
     try:

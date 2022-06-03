@@ -1,12 +1,19 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException, NoSuchWindowException, WebDriverException, ElementClickInterceptedException
-import time
 import random
+import time
+
 import pyautogui
 import pygetwindow
 from random_word import RandomWords
-from Functions import closeExpressVPN, showMessage, chromeDriverAsUser
+from selenium.common.exceptions import (ElementClickInterceptedException,
+                                        ElementNotInteractableException,
+                                        NoSuchElementException,
+                                        NoSuchWindowException,
+                                        WebDriverException)
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+
+from Functions import chromeDriverAsUser, closeExpressVPN, showMessage
+
 
 def runAlusRevenge(driver, run_Alu):
     if run_Alu:
