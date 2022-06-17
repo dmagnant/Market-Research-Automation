@@ -1,18 +1,22 @@
 import time
 
-from random_word import RandomWords
+from random_words import RandomWords
+from selenium.common.exceptions import WebDriverException
 
-from Functions import chromeDriverAsUser
+from Functions import chromeDriverAsUser, showMessage
 
 
 def runPresearch(driver):
-    search_prefix = "https://testnet-engine.presearch.org/search?q="
+    search_prefix = "https://presearch.com/search?q="
     search_term = None
     while search_term is None:
-        search_term = RandomWords().get_random_word()
+        search_term = RandomWords().random_word()
     time.sleep(1)
     search_path = search_prefix + search_term
-    driver.get(search_path)
+    try:
+        driver.get(search_path)
+    except WebDriverException:
+        showMessage('check issue', f'target frame detached error when trying to attempt {search_path}')
     time.sleep(1)
 
 if __name__ == '__main__':

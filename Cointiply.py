@@ -1,5 +1,6 @@
 import time
 from datetime import datetime
+from matplotlib import pyplot as plt
 
 import cv2
 import numpy as np
@@ -58,11 +59,12 @@ def ptcAds(directory, driver):
 
     view_length = ""
     selection = ""
-    # driver.implicitly_wait(1)
     main_window = driver.window_handles[0]
     still_ads = True
+    num = 1
     while still_ads:
         while len(driver.window_handles) > 1:
+            print(num)
             driver.switch_to.window(driver.window_handles[len(driver.window_handles)-1])
             driver.close()
         driver.switch_to.window(main_window)
@@ -84,21 +86,28 @@ def ptcAds(directory, driver):
             except (ElementNotInteractableException, ElementClickInterceptedException):
                 exception = "already registered"
             time.sleep(1)
-            # click on view highest paying add link
-            driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[2]/div[1]/div/div[1]/div[3]/button").click()
-            time.sleep(1)
-            # Obtain how long ad needs to be viewed for
-            driver.switch_to.window(main_window)
             try:
+                # click on view highest paying add link
+                driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[2]/div[1]/div/div[1]/div[3]/button").click()
+                time.sleep(1)
+                # Obtain how long ad needs to be viewed for
+                driver.switch_to.window(main_window)
                 # Capture "X seconds remaining" element text
                 view_length = driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/span").text
+                print(view_length)
             except (NoSuchElementException, StaleElementReferenceException):
                 print('view length not found')
                 continue
 
             ## register ad viewing
-            window_after = driver.window_handles[1]
-            driver.switch_to.window(window_after)
+            try:
+                window_after = driver.window_handles[1]
+                driver.switch_to.window(window_after)
+            except IndexError: # list index out of range
+                # skip ad
+                driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/button").click()
+                driver.refresh()
+                continue
             time.sleep(1)
             driver.switch_to.window(main_window)
             current_pos = pyautogui.position()
@@ -124,6 +133,7 @@ def ptcAds(directory, driver):
             except NoSuchElementException:
                 try:
                     # skip ad
+                    showMessage('unable to find selection', 'clicking OK will skip ad')
                     print('skipped ad')
                     driver.find_element(By.ID, "//*[@id='app']/div[4]/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/button").click()
                     driver.refresh()
@@ -154,13 +164,13 @@ def ptcAds(directory, driver):
                 top_left = min_loc if method in [cv2.TM_SQDIFF_NORMED] else max_loc
                 bottom_right = (top_left[0] + w, top_left[1] + h)
                 cv2.rectangle(img, top_left, bottom_right, 255, 2)
-            # removes the code to draw rectangle (keeping for troubleshooting reference)
+                x_coord = x_coord + int(top_left[0])
+                # removes the code to draw rectangle (keeping for troubleshooting reference)
                 # plt.subplot(121), plt.imshow(res, cmap='gray')
                 # plt.title('Matching Result'), plt.xticks([]), plt.yticks([])
                 # plt.subplot(122), plt.imshow(img, cmap='gray')
                 # plt.title('Detected Point'), plt.xticks([]), plt.yticks([])
                 # plt.suptitle(i)
-                x_coord = x_coord + int(top_left[0])
                 # plt.show()
             x_coord_avg = x_coord / 2
             time.sleep(1)
@@ -175,9 +185,10 @@ def ptcAds(directory, driver):
                 img_num = 4
             elif x_coord_avg > 400:
                 img_num = 5
-            # print('clicked: ' + selection)
+            print('clicked: ' + selection)
             driver.find_element(By.XPATH, "/html/body/div[2]/div[1]/div[2]/div[1]/img[" + str(img_num) + "]").click()
             time.sleep(1)
+            num +=1
         else:
             still_ads = False
 

@@ -21,16 +21,6 @@ def clearChromeWindows(directory):
     return driver
 
 directory = setDirectory()
-
-# brave = braveBrowserAsUser(directory)
-# with pyautogui.hold('ctrl'):
-#     pyautogui.press('t')
-# brave.switch_to.window(brave.window_handles[0])
-# while len(brave.window_handles) > 1:
-#     brave.close()
-#     brave.switch_to.window(brave.window_handles[0])
-# brave.minimize_window()
-
 driver = clearChromeWindows(directory)
 driver.implicitly_wait(3)
 time.sleep(3)
@@ -45,13 +35,10 @@ while True:
     now = datetime.now().time().replace(second=0,microsecond=0)
     driver = clearChromeWindows(directory)
     runFaucet = True if now.hour >= 9 and now.hour < 20 else False
-    # runFaucet = False          # activate this line to run passively indefinitely
     runPresearch(driver)
     minsLeftForFaucet = runCointiply(directory, driver, runFaucet)
     runPresearch(driver)
     driver.quit()
     nextRun = timeOfNextRun(minsLeftForFaucet)
-    # else:
-    #     brave.refresh()
     time.sleep(minsLeftForFaucet * 60)
     

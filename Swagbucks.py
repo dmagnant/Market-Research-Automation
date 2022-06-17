@@ -3,7 +3,7 @@ import time
 
 import pyautogui
 import pygetwindow
-from random_word import RandomWords
+from random_words import RandomWords
 from selenium.common.exceptions import (ElementClickInterceptedException,
                                         ElementNotInteractableException,
                                         NoSuchElementException,
@@ -211,9 +211,9 @@ def runSwagbucks(driver, run_Alu, location="home"):
                 time.sleep(1)
                 searches += 1
                 while search_term1 is None:
-                    search_term1 = RandomWords().get_random_word()
+                    search_term1 = RandomWords().random_word()
                 while search_term2 is None:
-                    search_term2 = RandomWords().get_random_word()
+                    search_term2 = RandomWords().random_word()
                 search_term = search_term1 + " " + search_term2
                 driver.find_element(By.ID, "sbGlobalNavSearchInputWeb").send_keys(search_term + Keys.ENTER)
                 time.sleep(random.choice(delay))
@@ -224,4 +224,4 @@ def runSwagbucks(driver, run_Alu, location="home"):
 
 if __name__ == '__main__':
     driver = chromeDriverAsUser()
-    runSwagbucks(driver, False, location="home")
+    runSwagbucks(driver, True, location="home")
