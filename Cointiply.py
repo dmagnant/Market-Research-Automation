@@ -54,17 +54,15 @@ def runFaucet(driver, runFaucet):
 
 
 def ptcAds(directory, driver):
-    driver.get("https://cointiply.com/ptc")
-    time.sleep(1)
-
     view_length = ""
     selection = ""
-    main_window = driver.window_handles[0]
     still_ads = True
-    num = 1
+
+    driver.get("https://cointiply.com/ptc")
+    time.sleep(1)
+    main_window = driver.window_handles[0]
     while still_ads:
         while len(driver.window_handles) > 1:
-            print(num)
             driver.switch_to.window(driver.window_handles[len(driver.window_handles)-1])
             driver.close()
         driver.switch_to.window(main_window)
@@ -94,7 +92,6 @@ def ptcAds(directory, driver):
                 driver.switch_to.window(main_window)
                 # Capture "X seconds remaining" element text
                 view_length = driver.find_element(By.XPATH, "//*[@id='app']/div[4]/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/span").text
-                print(view_length)
             except (NoSuchElementException, StaleElementReferenceException):
                 print('view length not found')
                 continue
@@ -124,9 +121,16 @@ def ptcAds(directory, driver):
                 driver.refresh()
                 continue
 
-            driver.switch_to.window(main_window)
-            time.sleep(1)
-
+            viewComplete = False
+            while not(viewComplete):
+                driver.switch_to.window(main_window)
+                time.sleep(1)
+                if "Ad View Complete" in driver.title:
+                    viewComplete = True
+                else:
+                    secondsLeft = int(driver.title.replace(" Seconds Left (Viewing Ad)", ""))
+                    driver.switch_to.window(window_after)
+                    time.sleep(secondsLeft + 2)
             # obtain which image needs to be selected
             try:
                 selection = driver.find_element(By.XPATH, "/html/body/div[2]/div[1]/div[2]/span[1]").text.replace("Select: ", "")
@@ -185,10 +189,8 @@ def ptcAds(directory, driver):
                 img_num = 4
             elif x_coord_avg > 400:
                 img_num = 5
-            print('clicked: ' + selection)
             driver.find_element(By.XPATH, "/html/body/div[2]/div[1]/div[2]/div[1]/img[" + str(img_num) + "]").click()
             time.sleep(1)
-            num +=1
         else:
             still_ads = False
 

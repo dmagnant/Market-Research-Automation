@@ -1,6 +1,6 @@
 import time
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException, ElementClickInterceptedException
+from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException, ElementClickInterceptedException, WebDriverException
 from Functions import showMessage, chromeDriverAsUser
 
 def runTellwut(driver):
@@ -56,7 +56,10 @@ def runTellwut(driver):
         driver.find_element(By.XPATH, "//input[@id='survey_form_submit']").click()
         time.sleep(3)
         # re-load the webpage to load new survey
-        driver.get("https://www.tellwut.com/")
+        try: 
+            driver.get("https://www.tellwut.com")
+        except WebDriverException:
+            print('refresh error caught')
         time.sleep(2)
     # Check balance and Redeem
     tellwut_balance = driver.find_element(By.XPATH, "/html/body/div/header/div/div/div/div[4]/div/div/div[2]/div[1]/div[1]").text

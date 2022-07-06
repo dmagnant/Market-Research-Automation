@@ -53,13 +53,14 @@ def closeExpressVPN():
 def setDirectory():
     return os.environ.get('StorageDirectory')
 
-def chromeDriverAsUser(directory=setDirectory()):
+def chromeDriverAsUser(directory=setDirectory()): # Beta version to obtain v104 (bug exists with <104). Once 104 is standard version, edit/remove beta lines
     chromedriver = Service(directory + r"\Projects\Coding\webdrivers\chromedriver.exe")
     options = webdriver.ChromeOptions()
-    options.add_argument(r"user-data-dir=C:\Users\dmagn\AppData\Local\Google\Chrome\User Data")
+    options.add_argument(r"user-data-dir=C:\Users\dmagn\AppData\Local\Google\Chrome Beta\User Data") # remove beta here
     options.add_argument("start-maximized")
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     options.add_experimental_option("detach", True)
+    options.binary_location = "C:/Program Files/Google/Chrome Beta/Application/chrome.exe" # remove this line to revert from "Beta" version
     return webdriver.Chrome(service=chromedriver, options=options)
 
 def chromeDriverBlank(directory):
@@ -147,7 +148,7 @@ def timeOfNextRun(minsLeftForFaucet):
             nextRunMinute = abs(nextRunMinute - 60)
             nextRunHour += 1 if nextRunHour < 23 else 0
     if nextRunMinute < 0 or nextRunMinute > 59:
-        showMessage('Next Run Minute is off', 'Nextrunminute = ' + nextRunMinute)
+        showMessage('Next Run Minute is off', 'Nextrunminute = ' + str(nextRunMinute))
     nextRun = now.replace(hour=nextRunHour, minute=nextRunMinute)
     print('next run at ', str(nextRun.hour) + ":" + "{:02d}".format(nextRun.minute))
     return nextRun

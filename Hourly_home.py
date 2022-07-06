@@ -25,8 +25,8 @@ driver = clearChromeWindows(directory)
 driver.implicitly_wait(3)
 time.sleep(3)
 minsLeftForFaucet = runCointiply(directory, driver, True)
+runPresearch(driver)
 driver.quit()
-# calculate next run time
 nextRun = timeOfNextRun(minsLeftForFaucet)
 if nextRun.hour == 0:
     minsLeftForFaucet -= datetime.now().time().minute
