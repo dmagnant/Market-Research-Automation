@@ -16,7 +16,7 @@ from Functions import chromeDriverAsUser, closeExpressVPN, showMessage
 
 def runAlusRevenge(driver, run_Alu):
     if run_Alu:
-        closeExpressVPN()
+        # closeExpressVPN()
         #Play Alus Revenge
         driver.get('https://www.swagbucks.com/games/play/319/alu-s-revenge-2?tid=113')
         time.sleep(2)
@@ -187,7 +187,7 @@ def swagbucksSearch(driver):
             num = 3
 
 def runSwagbucks(driver, run_Alu, location="home"):
-    closeExpressVPN()
+    # closeExpressVPN()
     driver.implicitly_wait(2)
     driver.get("https://www.swagbucks.com/")
     driver.maximize_window()

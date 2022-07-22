@@ -12,10 +12,10 @@ from Swagbucks import runSwagbucks
 from Tellwut import runTellwut
 
 directory = setDirectory()
-closeExpressVPN()
+# closeExpressVPN()
 driver1 = webdriver.Edge(service = Service(directory + r"\Projects\Coding\webdrivers\msedgedriver.exe"))
 # disablePiHole(directory, driver1)
-# runBing(directory, driver1)
+runBing(directory, driver1)
 driver1.quit()
 driver = chromeDriverAsUser(directory)
 runTellwut(driver)

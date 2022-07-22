@@ -85,7 +85,7 @@ def performRewardActivities(driver, bingWindow):
 def claimRewards(driver):
     # capture balance
     time.sleep(3)
-    bingBalance = driver.find_element(By.XPATH, "//*[@id='rewardsBanner']/div/div/div[2]/div[1]/mee-rewards-user-status-item/mee-rewards-user-status-balance/div/div/div/div/div/p[1]/mee-rewards-counter-animation/span").text.replace(',', '')
+    bingBalance = driver.find_element(By.XPATH, "//*[@id='rewardsBanner']/div/div/div[3]/div[1]/mee-rewards-user-status-item/mee-rewards-user-status-balance/div/div/div/div/div/p[1]/mee-rewards-counter-animation/span").text.replace(',', '')
     if int(bingBalance) >= 5250:
         # go to $5 Amazon gift card link
         driver.get("https://rewards.microsoft.com/redeem/000800000000")
