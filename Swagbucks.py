@@ -79,7 +79,7 @@ def dailyPoll(driver):
         # click on first answer
         driver.find_element(By.CSS_SELECTOR, "td.pollCheckbox").click()
         # click Vote & Earn
-        driver.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[2]/div[1]/div/div[2]/div[2]/div[1]/div[5]/div[2]/div[2]/div[1]/div[1]").click()
+        driver.find_element(By.XPATH, "/html/body/div[2]/div[3]/div[2]/div[1]/div/div[2]/div[2]/div[1]/div[5]/div[2]/div[2]/div[1]/div[1]").click()
     except NoSuchElementException:
         exception = "already answered"
 
@@ -167,7 +167,8 @@ def swagbucksSearch(driver):
                     driver.find_element(By.ID, "lightboxExit").click()
                 except NoSuchElementException:
                     try: 
-                        driver.find_element(By.ID, "daily-goal-celebration__exitCta--2VEiu").click()
+                        showMessage('Daily goal celebration test', '"YAY FOR ME" button should be clicked after clicking OK on this message')
+                        driver.find_element(By.XPATH, "/html/body/div[2]/div[3]/section/section/aside/button[2]")
                     except ElementNotInteractableException:
                         exception = "caught"
                 driver.find_element(By.ID, "sbLogoLink").click()
@@ -206,4 +207,4 @@ def runSwagbucks(driver, run_Alu, location="home"):
 
 if __name__ == '__main__':
     driver = chromeDriverAsUser()
-    runSwagbucks(driver, True, location="home")
+    runSwagbucks(driver, False, location="home")
